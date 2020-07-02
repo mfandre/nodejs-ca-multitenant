@@ -31,6 +31,9 @@ O projeto está estrturado de forma a contemplar os conceitos de Clean Architect
 - drivers: Coloquei dois exemplos de drivers: console e webserver. Os drivers são as formas de consumir consumir a sua arquitetura. Vc pode listar os usuarios atraves de um restapi (webserver) ou somente listar eles através de um prompt de comando (cli)
 - models: models da aplicação juntamente com suas reespectivas regras de validação
 
+OBS: O que define qual banco usar é o arquivo index de cada pasta da data-access. Ou seja, se users-db\index.js estiver usando memory TODA sua aplicação estará lendo os users da memória... Isso permite vc ter entidades sendo acessadas em diferentes fontes de dados... Olha que foda... Totalmente invísivel pela camada de bussiness...
+
+
 ## Como adicionar uma rota...
 
 1. Primeiro crie um modelo na pasta models (para ser usado no seu 'controller')
