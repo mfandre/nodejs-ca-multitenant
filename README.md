@@ -89,6 +89,9 @@ A aplicação possui arquivos de conexão para 3 bancos atualmente:
 - Memória (array em memória)
 - Knex para bancos SQL (eu testei com Postgres e SQLServer...)
 
+A conexão com o tenant_common fica no arquivo de configuração na pasta config. Essa conexão é feita para recuperar as conexões ds demais tenants.
+Caso vc deseje adicionar/alterar um tenant vc precisa atualizar o banco common.
+
 ### Migrations
 Execute na raiz da pasta "server" para aplicar as migrações usando knex
 
