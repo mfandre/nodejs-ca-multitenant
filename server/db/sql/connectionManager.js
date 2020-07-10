@@ -3,7 +3,7 @@ let config = require('../../config')
 
 var environment = config.NODE_ENV || 'development';
 var knexConfig = require('../../knexfile')[environment];
-commonDBConnection = knex(knexConfig)
+var commonDBConnection = knex(knexConfig)
 
 //console.log("environment", environment)
 console.log("tenant conn", knexConfig)

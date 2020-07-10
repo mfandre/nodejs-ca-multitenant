@@ -18,16 +18,17 @@ services:
   #     - 8081:8081
   #   depends_on:
   #     - mongo
-  pgAdmin:
-    image: dpage/pgadmin4
-    container_name: pgAdmin
-    hostname: pgAdmin
-    environment: 
-      PGADMIN_DEFAULT_EMAIL: admin
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - 3001:80
-    restart: always
+
+  # pgAdmin:
+  #   image: dpage/pgadmin4
+  #   container_name: pgAdmin
+  #   hostname: pgAdmin
+  #   environment: 
+  #     PGADMIN_DEFAULT_EMAIL: admin
+  #     PGADMIN_DEFAULT_PASSWORD: admin
+  #   ports:
+  #     - 3001:80
+  #   restart: always
 
   common_tenant:
     image: postgres
@@ -43,34 +44,35 @@ services:
     ports:
       - 5432:5432
 
-  tenant1:
-    image: postgres
-    container_name: tenant1
-    hostname: tenant1
-    environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: tenant1
-    volumes:
-      - ./initTenant1.sql:/docker-entrypoint-initdb.d/init.sql
-    restart: always
-    ports:
-      - 5433:5432
+  # tenant1:
+  #   image: postgres
+  #   container_name: tenant1
+  #   hostname: tenant1
+  #   environment:
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_DB: tenant1
+  #   volumes:
+  #     - ./initTenant1.sql:/docker-entrypoint-initdb.d/init.sql
+  #   restart: always
+  #   ports:
+  #     - 5433:5432
 
-  tenant2:
-    image: postgres
-    container_name: tenant2
-    hostname: tenant2
-    environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: tenant2
-    volumes:
-      - ./initTenant2.sql:/docker-entrypoint-initdb.d/init.sql
-    restart: always
-    ports:
-      - 5434:5432
+  # tenant2:
+  #   image: postgres
+  #   container_name: tenant2
+  #   hostname: tenant2
+  #   environment:
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_DB: tenant2
+  #   volumes:
+  #     - ./initTenant2.sql:/docker-entrypoint-initdb.d/init.sql
+  #   restart: always
+  #   ports:
+  #     - 5434:5432
 
+  
   tenant3:
     image: mcr.microsoft.com/mssql/server
     container_name: tenant3

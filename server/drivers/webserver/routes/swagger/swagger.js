@@ -6,7 +6,7 @@ const options = {
     info: {
       swagger: "2.0",
       version: '1.0.0',
-      description: 'Desenvolvido por - André de Mattos Ferraz',
+      description: 'Desenvolvido por - Healthmap',
       title: 'API'
     },
     host: 'localhost:' + config.PORT,

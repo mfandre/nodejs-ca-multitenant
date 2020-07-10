@@ -51,8 +51,9 @@ O docker-compose criado cria os banco de dados. A aplicação (cli o u web) deve
      - docker-compose up --build -d
 2. Executar aplicação node (Aguarde uns minutos antes de subir a aplicação pois o banco de dados leva algum tempo para subir)
      - abra o prompt de commando na pasta do projeto
-     - Para executar o webserver: node .\server\drivers\webserver\server.js
+     - Para executar o webserver: node .\server\drivers\webserver\server.ts
      - Para executar o cli: node .\server\drivers\cli\index.js
+3. Executar npm install na pasta ./server
 4. Be happy
 
 Pausar os containers no docker:

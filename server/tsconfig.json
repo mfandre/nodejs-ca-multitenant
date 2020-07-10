@@ -1,0 +1,22 @@
+// Setting "outFiles" : ["${workspaceRoot}/compiled/**/*.js"] solved the issue for me.
+
+// "outFiles" value should match one set in tsconfig.json for outDir and mapRoot which is ${workspaceRoot} in your case, so try "outFiles": "${workspaceRoot}/**/*.js"
+
+// Here are my tsconfig.json
+{
+    "compilerOptions": {
+        "module": "system",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "target": "es6",
+        "outFile": "${workspaceRoot}/compiled/**/*.js",
+        "mapRoot": "compiled",
+        "outDir": "./out" 
+    },
+    "exclude": [
+        "${workspaceRoot}/server/node_modules",
+        "**/*.spec.ts"
+    ]
+}

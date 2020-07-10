@@ -7,13 +7,20 @@ let config = require('./config/index')
 // # \q
 module.exports = {
   development: {
-    client: 'pg',
+    client: 'mssql',
+    // connection: {
+    //   host: 'localhost',
+    //   user: 'postgres',
+    //   password: 'postgres',
+    //   database: 'common_tenant',
+    //   port: 5432
+    // },
     connection: {
-      host: 'localhost',
-      user: 'postgres',
-      password: 'postgres',
-      database: 'common_tenant',
-      port: 5432
+      host: 'prd-dbserver01.healthmap.local',
+      user: 'p_healthweb',
+      password: 'prof9ezlPhapEhI4',
+      database: 'p_healthweb',
+      port: 1433
     },
     migrations: {
       directory: __dirname + '/db/sql/migrations'
