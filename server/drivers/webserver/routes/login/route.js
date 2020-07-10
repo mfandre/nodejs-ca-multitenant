@@ -12,11 +12,7 @@ loginRoutes.register = (router) => {
      * @swagger
      * /login:
      *   post:
-     *     tags:
-     *       - login
      *     description: login a user
-     *     produces:
-     *       - application/json
      *     parameters:
      *       - in: header
      *         name: slug

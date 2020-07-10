@@ -19,7 +19,7 @@ login.login = (req, res, next) => {
   }).catch(error => {
     console.error(error);
     res.status(500).send();
-  })
+  });
 }
 
 login.register = (req, res, next) => {

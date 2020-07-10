@@ -133,198 +133,185 @@ System.register("app/seguranca/usuario/model/usuario.model", ["app/core/default-
         }
     };
 });
-System.register("drivers/webserver/_server", ["express"], function (exports_7, context_7) {
+System.register("drivers/webserver/middlewares/tenant-resolver-middleware", [], function (exports_7, context_7) {
     "use strict";
-    var express_1, bodyParser, app, routes, config, tenantResolver, url, PORT, ENV;
+    var url, getConnectionBySlug, getNamespace, TenantResolverMiddleware;
     var __moduleName = context_7 && context_7.id;
+    return {
+        setters: [],
+        execute: function () {
+            url = require('url');
+            getConnectionBySlug = require('../../../db/sql/connectionManager').getConnectionBySlug;
+            getNamespace = require('continuation-local-storage').getNamespace;
+            TenantResolverMiddleware = class TenantResolverMiddleware {
+                resolver(req, res, next) {
+                    const pathsPermitidosSemTenant = ['/',
+                        '/farms/*',
+                        '/swagger',
+                        '/swagger/',
+                        '/farmndvis/*',
+                        '/farmprecipitations/*',
+                        '/swagger/favicon.ico',
+                        '/swagger/favicon-16x16.png',
+                        '/swagger/favicon-32x32.png',
+                        '/swagger/swagger-ui.css',
+                        '/swagger/swagger-ui-bundle.js',
+                        '/swagger/swagger-ui-standalone-preset.js',
+                        '/swagger/swagger-ui-init.js',
+                        '/swagger/swagger.json'];
+                    var path = url.parse(req.url).pathname;
+                    console.log("req.path", path);
+                    let tenantNecessario = true;
+                    for (let i = 0; i < pathsPermitidosSemTenant.length; i++) {
+                        if (pathsPermitidosSemTenant[i].indexOf('*') >= 0) {
+                            if (path.includes(pathsPermitidosSemTenant[i].replace('*', '')) || path.includes(pathsPermitidosSemTenant[i].replace('/*', ''))) {
+                                console.log('tenant-resolver: * routes');
+                                tenantNecessario = false;
+                                break;
+                            }
+                        }
+                        else if (pathsPermitidosSemTenant[i] === path) {
+                            tenantNecessario = false;
+                            break;
+                        }
+                    }
+                    if (tenantNecessario && !req.headers.slug) {
+                        console.log("Nenhum tenant definido no header");
+                        res.json({ message: `Por favor defina um tenant ( Http Headers ) para processar esta requisição.` });
+                        return;
+                    }
+                    next();
+                }
+            };
+            exports_7("TenantResolverMiddleware", TenantResolverMiddleware);
+        }
+    };
+});
+System.register("drivers/webserver/middlewares/paginacao-middleware", ["app/core/utils/http-util"], function (exports_8, context_8) {
+    "use strict";
+    var http_util_1, PaginacaoMiddleware;
+    var __moduleName = context_8 && context_8.id;
+    return {
+        setters: [
+            function (http_util_1_1) {
+                http_util_1 = http_util_1_1;
+            }
+        ],
+        execute: function () {
+            PaginacaoMiddleware = class PaginacaoMiddleware {
+                paginar(req, res, next) {
+                    let body;
+                    try {
+                        body = JSON.stringify(http_util_1.HttpUtil.paginarResponse(body, req));
+                    }
+                    catch (err) {
+                        res.send(err.toString());
+                        return false;
+                    }
+                    res.send(body);
+                    next();
+                }
+            };
+            exports_8("PaginacaoMiddleware", PaginacaoMiddleware);
+        }
+    };
+});
+System.register("drivers/webserver/middlewares/error-handler-middleware", [], function (exports_9, context_9) {
+    "use strict";
+    var ErrorHandlerMiddleware;
+    var __moduleName = context_9 && context_9.id;
+    return {
+        setters: [],
+        execute: function () {
+            ErrorHandlerMiddleware = class ErrorHandlerMiddleware {
+                resolver(err, req, res, next) {
+                    if (err) {
+                        console.error(err.message);
+                        if (!err.statusCode) {
+                            err.statusCode = 500;
+                        }
+                        return res.status(err.statusCode).send({
+                            statusCode: err.statusCode,
+                            message: err.message
+                        });
+                    }
+                    next();
+                }
+            };
+            exports_9("ErrorHandlerMiddleware", ErrorHandlerMiddleware);
+        }
+    };
+});
+System.register("drivers/webserver/app", ["express", "cors", "drivers/webserver/middlewares/tenant-resolver-middleware", "drivers/webserver/middlewares/paginacao-middleware", "drivers/webserver/middlewares/error-handler-middleware"], function (exports_10, context_10) {
+    "use strict";
+    var express_1, cors_1, tenant_resolver_middleware_1, paginacao_middleware_1, error_handler_middleware_1, url, App;
+    var __moduleName = context_10 && context_10.id;
     return {
         setters: [
             function (express_1_1) {
                 express_1 = express_1_1;
-            }
-        ],
-        execute: function () {
-            bodyParser = require('body-parser');
-            app = express_1.default();
-            routes = require('./routes');
-            config = require('../../config');
-            tenantResolver = require('./middlewares/tenantResolver');
-            url = require('url');
-            app.use(bodyParser.urlencoded({ extended: false }));
-            app.use(bodyParser.json());
-            app.use(routes);
-            app.use((err, req, res, next) => {
-                if (err) {
-                    console.error(err.message);
-                    if (!err.statusCode) {
-                        err.statusCode = 500;
-                    }
-                    return res.status(err.statusCode).send({
-                        statusCode: err.statusCode,
-                        message: err.message
-                    });
-                }
-                next();
-            });
-            app.use(function (req, res) {
-                res.status(404).json({
-                    status: 'Page does not exist'
-                });
-            });
-            PORT = config.PORT || 3000;
-            ENV = config.NODE_ENV;
-            console.log("EVN", ENV);
-            app.listen(PORT, () => {
-                console.log(`Listening on PORT: ${PORT}`);
-            });
-            module.exports = {
-                express: express_1.default,
-                bodyParser,
-                app,
-                routes,
-                config,
-                tenantResolver
-            };
-        }
-    };
-});
-System.register("drivers/webserver/middlewares/tenant-resolver", [], function (exports_8, context_8) {
-    "use strict";
-    var getConnectionBySlug, getNamespace, TenantResolver;
-    var __moduleName = context_8 && context_8.id;
-    return {
-        setters: [],
-        execute: function () {
-            getConnectionBySlug = require('../../../db/sql/connectionManager').getConnectionBySlug;
-            getNamespace = require('continuation-local-storage').getNamespace;
-            TenantResolver = class TenantResolver {
-                resolver(req, res, next) {
-                    const slug = req.headers.slug;
-                    if (!slug) {
-                        console.log("No tenant setted");
-                        res.json({ message: `Please provide tenant's slug to connect.` });
-                        return;
-                    }
-                    if (next) {
-                        next();
-                    }
-                }
-            };
-            exports_8("TenantResolver", TenantResolver);
-        }
-    };
-});
-System.register("drivers/webserver/app", ["express", "cors", "app/core/utils/http-util", "drivers/webserver/middlewares/tenant-resolver"], function (exports_9, context_9) {
-    "use strict";
-    var express_2, cors_1, http_util_1, tenant_resolver_1, url, interceptor, App;
-    var __moduleName = context_9 && context_9.id;
-    return {
-        setters: [
-            function (express_2_1) {
-                express_2 = express_2_1;
             },
             function (cors_1_1) {
                 cors_1 = cors_1_1;
             },
-            function (http_util_1_1) {
-                http_util_1 = http_util_1_1;
+            function (tenant_resolver_middleware_1_1) {
+                tenant_resolver_middleware_1 = tenant_resolver_middleware_1_1;
             },
-            function (tenant_resolver_1_1) {
-                tenant_resolver_1 = tenant_resolver_1_1;
+            function (paginacao_middleware_1_1) {
+                paginacao_middleware_1 = paginacao_middleware_1_1;
+            },
+            function (error_handler_middleware_1_1) {
+                error_handler_middleware_1 = error_handler_middleware_1_1;
             }
         ],
         execute: function () {
             url = require('url');
-            interceptor = require('express-interceptor');
             App = class App {
                 constructor() {
-                    this.myResponseInterceptor = interceptor(function (req, res, next) {
-                        return {
-                            isInterceptable: function () {
-                                const pathsPermitidosSemTenant = ['/',
-                                    '/farms/*',
-                                    '/farmndvis/*',
-                                    '/farmprecipitations/*',
-                                    '/favicon.ico',
-                                    '/favicon-16x16.png',
-                                    '/favicon-32x32.png',
-                                    '/swagger-ui.css',
-                                    '/swagger-ui-bundle.js',
-                                    '/swagger-ui-standalone-preset.js',
-                                    '/swagger-ui-init.js',
-                                    '/swagger.json'];
-                                var path = url.parse(req.url).pathname;
-                                console.log("req.path", req.url);
-                                for (let i = 0; i < pathsPermitidosSemTenant.length; i++) {
-                                    if (pathsPermitidosSemTenant[i].indexOf('*') >= 0) {
-                                        if (path.includes(pathsPermitidosSemTenant[i].replace('*', '')) || path.includes(pathsPermitidosSemTenant[i].replace('/*', ''))) {
-                                            return next();
-                                        }
-                                    }
-                                    else if (pathsPermitidosSemTenant[i] === path) {
-                                        return next();
-                                    }
-                                }
-                                return true;
-                            },
-                            intercept: function (body, send) {
-                                App.tenantResolver.resolver(req, res, next);
-                                try {
-                                    body = JSON.stringify(http_util_1.HttpUtil.paginarResponse(body, req));
-                                }
-                                catch (err) {
-                                    res.send(err.toString());
-                                }
-                                send(body);
-                            }
-                        };
-                    });
-                    this.express = express_2.default();
+                    this.tenantResolverMiddleware = new tenant_resolver_middleware_1.TenantResolverMiddleware();
+                    this.paginacaoMiddleware = new paginacao_middleware_1.PaginacaoMiddleware();
+                    this.errorHandlerMiddleware = new error_handler_middleware_1.ErrorHandlerMiddleware();
+                    this.express = express_1.default();
                     this.middlewares();
-                    this.routes();
                 }
                 middlewares() {
-                    this.express.use(express_2.default.urlencoded({ extended: false }));
-                    this.express.use(express_2.default.json());
+                    this.express.use(express_1.default.urlencoded({ extended: false }));
+                    this.express.use(express_1.default.json());
                     this.express.use(cors_1.default());
-                    this.express.use(this.myResponseInterceptor);
-                    this.express.use((err, req, res, next) => {
-                        if (err) {
-                            console.error(err.message);
-                            if (!err.statusCode) {
-                                err.statusCode = 500;
-                            }
-                            return res.status(err.statusCode).send({
-                                statusCode: err.statusCode,
-                                message: err.message
-                            });
-                        }
-                        next();
-                    });
+                    this.express.use(this.tenantResolverMiddleware.resolver);
+                    this.routes();
+                    this.express.use(this.errorHandlerMiddleware.resolver);
                 }
                 routes() {
                     const loginRota = require('./routes/login/route');
                     loginRota.register(this.express);
+                    const autenticacaoRota = require('./routes/autenticacao/v1/autenticacao-rota');
+                    autenticacaoRota.register(this.express);
                     const swaggerUi = require('swagger-ui-express');
                     const specs = require('./routes/swagger/swagger.js');
                     this.express.get('/swagger.json', function (req, res, next) {
                         res.setHeader('Content-Type', 'application/json');
                         res.send(specs);
                     });
-                    this.express.use('/', swaggerUi.serve, swaggerUi.setup(specs));
+                    this.express.use('/swagger', swaggerUi.serve, swaggerUi.setup(specs));
+                    this.express.use(function (req, res, next) {
+                        console.log('pagina nao encontrada.');
+                        res.status(404).json({
+                            status: 'Página inexistente.'
+                        });
+                    });
                 }
             };
-            exports_9("App", App);
+            exports_10("App", App);
             App.version = '1.0.0.20200707';
-            App.tenantResolver = new tenant_resolver_1.TenantResolver();
-            exports_9("default", new App().express);
+            exports_10("default", new App().express);
         }
     };
 });
-System.register("drivers/webserver/server", ["drivers/webserver/app"], function (exports_10, context_10) {
+System.register("drivers/webserver/server", ["drivers/webserver/app"], function (exports_11, context_11) {
     "use strict";
     var app_1, config, PORT, ENV;
-    var __moduleName = context_10 && context_10.id;
+    var __moduleName = context_11 && context_11.id;
     return {
         setters: [
             function (app_1_1) {
@@ -341,43 +328,27 @@ System.register("drivers/webserver/server", ["drivers/webserver/app"], function 
         }
     };
 });
-System.register("drivers/webserver/routes/autenticacao/v1/autenticacao-rota-old", [], function (exports_11, context_11) {
+System.register("drivers/webserver/routes/autenticacao/v1/autenticacao-rota-impl", [], function (exports_12, context_12) {
     "use strict";
-    var usersDb, jwt, config, AutenticacaoRota;
-    var __moduleName = context_11 && context_11.id;
+    var AutenticacaoRotaImpl;
+    var __moduleName = context_12 && context_12.id;
     return {
         setters: [],
         execute: function () {
-            usersDb = require('./../../../../../data-access/users-db');
-            jwt = require('jsonwebtoken');
-            config = require('../../../../../config');
-            AutenticacaoRota = class AutenticacaoRota {
+            AutenticacaoRotaImpl = class AutenticacaoRotaImpl {
                 constructor() {
-                    console.log('constructor...');
+                    this.testes = (req, res, next) => {
+                        console.log('rotaImpl');
+                        res.send('teste 2');
+                    };
+                    console.log('AutenticacaoRotaImpl constructor');
                 }
-                inicializarRota() {
-                    this.router.use('/v1/autenticacao', this.router);
-                    this.router.get('/login', (req, res) => {
-                        const { email, password } = req.body;
-                        const slug = req.headers.slug;
-                        console.log('testes autenticacao-rota... ' + slug);
-                        usersDb.findUsersBy(slug, 'email', email).then((data) => {
-                            if (data.length != 1 || password !== data[0].password) {
-                                res.status(401).send();
-                                return;
-                            }
-                            data[0].password = undefined;
-                            const token = jwt.sign(data[0], config.JWT_PW);
-                            res.status(200).send({ userData: data[0], token });
-                        }).catch((error) => {
-                            console.error(error);
-                            res.status(500).send();
-                        });
-                    });
-                    return this.router;
+                teste(req, res, next) {
+                    console.log('rotaImpl');
+                    res.send('teste 1');
                 }
             };
-            exports_11("AutenticacaoRota", AutenticacaoRota);
+            exports_12("AutenticacaoRotaImpl", AutenticacaoRotaImpl);
         }
     };
 });

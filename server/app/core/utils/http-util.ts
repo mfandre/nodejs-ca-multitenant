@@ -20,8 +20,6 @@ export class HttpUtil {
     }
     catch (e){ paginaAtual = 0; }
 
-
-
     const ultimoElemento      = ( (paginaAtual-1) * Pagina.TAMANHO_PAGINA_DEFAULT) + 1;
 
     pagina.totalElementos = elementos.length;
