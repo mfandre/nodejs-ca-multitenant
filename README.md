@@ -43,6 +43,10 @@ OBS: O que define qual banco usar é o arquivo index de cada pasta da data-acces
 5. No arquivo route.js vc irá configurar suas rotas (get, post, put... além da documentação swagger)
 6. siga o exemplo das rotas de login ja existentes!
 
+## Como adicionar uma rota... ( atualizado )
+
+As rotas devem ser adicionadas utilizando decorations, através da framework typescript-rest.
+
 ##  Executando a aplicação
 O docker-compose criado cria os banco de dados. A aplicação (cli o u web) deverá rodar na sua máquina!
 

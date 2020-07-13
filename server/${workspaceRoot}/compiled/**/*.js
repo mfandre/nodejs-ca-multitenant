@@ -1,3 +1,12 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 console.log('empty ts');
 System.register("app/core/default-model", [], function (exports_1, context_1) {
     "use strict";
@@ -349,6 +358,36 @@ System.register("drivers/webserver/routes/autenticacao/v1/autenticacao-rota-impl
                 }
             };
             exports_12("AutenticacaoRotaImpl", AutenticacaoRotaImpl);
+        }
+    };
+});
+System.register("drivers/webserver/routes/autenticacao/v1/teste-rota", ["typescript-rest"], function (exports_13, context_13) {
+    "use strict";
+    var typescript_rest_1, TesteRota;
+    var __moduleName = context_13 && context_13.id;
+    return {
+        setters: [
+            function (typescript_rest_1_1) {
+                typescript_rest_1 = typescript_rest_1_1;
+            }
+        ],
+        execute: function () {
+            TesteRota = class TesteRota {
+                sayHello() {
+                    return "Hello " + name;
+                }
+            };
+            __decorate([
+                typescript_rest_1.Path("/xablau"),
+                typescript_rest_1.GET,
+                __metadata("design:type", Function),
+                __metadata("design:paramtypes", []),
+                __metadata("design:returntype", String)
+            ], TesteRota.prototype, "sayHello", null);
+            TesteRota = __decorate([
+                typescript_rest_1.Path('/oi')
+            ], TesteRota);
+            exports_13("TesteRota", TesteRota);
         }
     };
 });

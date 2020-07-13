@@ -5,8 +5,9 @@
 // Here are my tsconfig.json
 {
     "compilerOptions": {
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
         "module": "system",
-        "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap": true,
@@ -14,6 +15,11 @@
         "outFile": "${workspaceRoot}/compiled/**/*.js",
         "mapRoot": "compiled",
         "outDir": "./out" 
+        // "noImplicitAny": true,
+        // "noImplicitReturns": true,
+        // "noImplicitThis": false,
+        // "noUnusedParameters": false,
+        // "noUnusedLocals": true,
     },
     "exclude": [
         "${workspaceRoot}/server/node_modules",
