@@ -48,6 +48,8 @@ connectionManager.createConnectionConfig = (tenant) => {
       database: tenant.db_name,
       password: tenant.db_password
     },
+    
+    // TODO
     pool: { min: 2, max: 20 }
   };
 }

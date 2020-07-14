@@ -8,9 +8,9 @@ export class PaginacaoMiddleware {
   // interceptor(function(req: express.Request, res: express.Response, next: any) {
 
   paginar(req: Request, res: Response, next: any) {
-    let body;
+    let body: string;
     try {
-      body = JSON.stringify(HttpUtil.paginarResponse(body, req));
+      body = JSON.stringify(HttpUtil.paginarResponse(req.body, req));
     }
     catch (err) {
       res.send(err.toString());
