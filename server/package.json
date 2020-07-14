@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --watch \"src/**/*.ts\" --ignore \"node_modules/**/*\" --exec ts-node ./drivers/webserver/index.ts",
+    "start": "nodemon --watch \"./**/*.ts\" --ignore \"node_modules/**/*\" --exec ts-node ./drivers/webserver/index.ts",
     "dev": "nodemon ./drivers/webserver/server.ts",
     "test": "mocha './**/*.spec.js' --exit",
     "knex": "knex",

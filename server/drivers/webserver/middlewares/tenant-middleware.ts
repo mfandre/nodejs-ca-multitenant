@@ -1,8 +1,6 @@
 import {Err, IMiddleware, IResponseError, Middleware, Req, Res, Next} from "@tsed/common";
-import {NotFound} from "@tsed/exceptions";
 
 const url = require('url');
-
 
 
 @Middleware()
