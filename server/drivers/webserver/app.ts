@@ -1,9 +1,11 @@
-import express, { Request, Response } from 'express'
-import cors from 'cors'
+import cors from 'cors';
+import express from 'express'
+
 
 import { TenantResolverMiddleware } from './middlewares/tenant-resolver-middleware';
 import { PaginacaoMiddleware } from './middlewares/paginacao-middleware';
 import { ErrorHandlerMiddleware } from './middlewares/error-handler-middleware';
+import { Server } from 'typescript-rest';
 
 var url = require('url');
 
@@ -27,8 +29,13 @@ export class App {
     this.express.use(cors());
     this.express.use(this.tenantResolverMiddleware.resolver);
     this.routes();
+    Server.buildServices(this.express);
+    // Server.loadServices(this.express, 'controllers/autenticacao/v1/*', __dirname);
+    // Server.loadServices(this.express, 'routes/autenticacao/v2/*', __dirname);
+
+    // Server.loadServices(this.express, './routes');
     this.express.use(this.errorHandlerMiddleware.resolver);
-    // this.express.use(this.paginacaoMiddleware.paginar);
+    this.express.use(this.paginacaoMiddleware.paginar);
   } 
 
   private routes(): void {

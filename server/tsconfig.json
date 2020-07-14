@@ -1,28 +1,19 @@
-// Setting "outFiles" : ["${workspaceRoot}/compiled/**/*.js"] solved the issue for me.
-
-// "outFiles" value should match one set in tsconfig.json for outDir and mapRoot which is ${workspaceRoot} in your case, so try "outFiles": "${workspaceRoot}/**/*.js"
-
-// Here are my tsconfig.json
 {
-    "compilerOptions": {
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "module": "system",
-        "removeComments": true,
-        "preserveConstEnums": true,
-        "sourceMap": true,
-        "target": "es6",
-        "outFile": "${workspaceRoot}/compiled/**/*.js",
-        "mapRoot": "compiled",
-        "outDir": "./out" 
-        // "noImplicitAny": true,
-        // "noImplicitReturns": true,
-        // "noImplicitThis": false,
-        // "noUnusedParameters": false,
-        // "noUnusedLocals": true,
-    },
-    "exclude": [
-        "${workspaceRoot}/server/node_modules",
-        "**/*.spec.ts"
-    ]
+  "compileOnSave": true,
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "ES2015",
+    "declaration": false,
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": [
+      "${workspaceRoot}/server/node_modules",
+      "**/*.spec.ts"
+  ]
 }

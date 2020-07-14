@@ -1,9 +1,11 @@
-import { AutenticacaoRotaImpl } from './autenticacao-rota-impl';
+// import { AutenticacaoRotaImpl } from './autenticacao-rota-impl';
 
 let rotas = module.exports = {}
 
 rotas.register = (router) => {
-    const rotaImpl = new AutenticacaoRotaImpl();
+  // const rotaImpl = require('./autenticacao-rota-impl');
+    // const rotaImpl = new AutenticacaoRotaImpl();
 
-    router.get("/teste", rotaImpl.teste);
+    // router.get("/teste", rotaImpl.teste);
 }
+// export rotas;
