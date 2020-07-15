@@ -1,11 +1,11 @@
 import { Injectable } from "@tsed/common";
-
 import { Usuario } from './../../../../models/autenticacao/usuario/usuario.model';
 
 @Injectable()
 export class UsuarioRepositorio {
 
   public knex = require('./../../../../../../db/sql/knex');
+
 
   public listarUsuarios = (tenant) => {
     return this.knex.getConnectionBySlug(tenant).raw(`SELECT * FROM [user];`)
