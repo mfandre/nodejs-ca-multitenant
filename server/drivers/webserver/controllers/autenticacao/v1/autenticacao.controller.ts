@@ -1,20 +1,26 @@
-import {Controller, Get, Post} from "@tsed/common";
+import {Controller, Get, Post, BodyParams} from "@tsed/common";
 import { UsuarioService } from "./../../../services/autenticacao/usuario.service";
+import { NotFound } from "@tsed/exceptions";
 
 @Controller("/autenticacao")
 export class LoginController {
 
-  constructor(private readonly usuarioService: UsuarioService) {
-  }
+  // TODO precisa ser recuperado da request
+  private tenant = 'dev';
+
+  constructor(private readonly usuarioService: UsuarioService) {}
 
   @Post("/login")
-  login() {
-    return "login";
+  login( @BodyParams() credenciais: {email, password} ) {
+    const email = credenciais.email;
+    const senha = credenciais.password;
+
+    return this.usuarioService.login(this.tenant, email, senha);
   }
 
   @Get("/auth")
   auth() {
-    return this.usuarioService.listarUsuarios('dev');
+    return this.usuarioService.listarUsuarios(this.tenant);
   }
 
   @Post("/register")

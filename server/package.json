@@ -28,7 +28,6 @@
     "@tsed/platform-express": "5.60.6",
     "@tsed/swagger": "5.60.6",
     "@types/swagger-schema-official": "2.0.20",
-    "@wwwouter/typed-knex": "^2.14.0",
     "ajv": "6.12.3",
     "body-parser": "1.19.0",
     "compression": "1.7.4",

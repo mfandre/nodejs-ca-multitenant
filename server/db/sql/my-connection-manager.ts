@@ -1,13 +1,14 @@
 const knex = require('knex');
+
 const config = require('../../config');
 
 const environment = config.NODE_ENV || 'development';
 const knexConfig = require('../../knexfile')[environment];
 const commonDBConnection = knex(knexConfig);
 
-export class ConnectionManager {
+export class MyConnectionManager {
 
-  private connectionMap = {};
+  private connectionMap = new Map<string, any>();
   private commonDBConnection = knex(knexConfig);
 
   connectAllDb = async () => {
@@ -24,7 +25,6 @@ export class ConnectionManager {
 
     this.connectionMap = tenants
         .map(tenant => {
-          // const typedKnex = new TypedKnex(knex(connectionManager.createConnectionConfig(tenant)));
           const typedKnex = knex(this.createConnectionConfig(tenant));
 
           return {
@@ -53,7 +53,7 @@ export class ConnectionManager {
     };
   };
 
-  public getConnectionBySlug = (slug) => {
+  public getConnectionBySlug = (slug): any => {
 
     if ( this.connectionMap ) {
       console.log("slug=>", slug);
