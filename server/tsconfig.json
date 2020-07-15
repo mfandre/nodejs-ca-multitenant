@@ -1,5 +1,4 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "./dist",
@@ -20,7 +19,7 @@
     "allowSyntheticDefaultImports": true
   },
   "include": [
-    "./**/*.ts"
+    "./server/**/*.ts"
   ],  
   "exclude": [
     "node_modules",

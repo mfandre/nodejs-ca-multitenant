@@ -26,7 +26,7 @@ console.log("EVN", ENV);
   httpsPort: false, // CHANGE,
   logger: {
     debug: true,
-    logRequest: true,
+    logRequest: false,
     requestFields: ["reqId", "method", "url", "headers", "query", "params", "duration"]
   },
   mount: {
@@ -41,6 +41,11 @@ console.log("EVN", ENV);
   ],
   exclude: [
     "**/*.spec.ts"
+  ],
+  componentsScan: [
+    "${rootDir}/services/**/*.ts",
+    "${rootDir}/repositories/**/*.ts",
+    "${rootDir}/middlewares/**/*.ts"
   ]
 })
 export class Server {
@@ -62,6 +67,8 @@ export class Server {
       .use(bodyParser.urlencoded({
         extended: true
       }));
+
+    const knex = require('./../../db/sql/knex');
 
     return null;
   }

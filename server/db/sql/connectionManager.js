@@ -25,14 +25,14 @@ connectionManager.connectAllDb = async () => {
   }
 
   connectionManager.connectionMap = tenants
-      .map(tenant => {
-        return {
-          [tenant.slug]: knex(connectionManager.createConnectionConfig(tenant))
-        }
-      })
-      .reduce((prev, next) => {
-        return Object.assign({}, prev, next);
-      }, {});
+    .map(tenant => {
+      return {
+        [tenant.slug]: knex(connectionManager.createConnectionConfig(tenant))
+      }
+    })
+    .reduce((prev, next) => {
+      return Object.assign({}, prev, next);
+    }, {});
 }
 
 /**
