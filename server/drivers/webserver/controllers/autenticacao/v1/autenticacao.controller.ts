@@ -14,17 +14,7 @@ export class LoginController {
 
   @Get("/auth")
   auth() {
-
-    if ( this.usuarioService ) {
-      console.log('USUARIO SERVICE IS NOT NULL');
-
-      return this.usuarioService.listarUsuarios('dev');
-    }
-    else {
-      console.log('USUARIO SERVICE IS NULL');
-
-      return "usuarioService is null";
-    }
+    return this.usuarioService.listarUsuarios('dev');
   }
 
   @Post("/register")

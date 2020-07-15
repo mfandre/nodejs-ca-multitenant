@@ -9,21 +9,7 @@ export class UsuarioService {
   }
 
   public listarUsuarios(tenant: string): any {
-    console.log('UsuarioService: listarUsuarios');
-
-    if ( this.usuarioRepositorio ) {
-      console.log(' USUARIO REPOSITORIO IS NOT NULL ');
-
-      return this.usuarioRepositorio.listarUsuarios('dev');
-    }
-    else {
-      console.log(' USUARIO REPOSITORIO IS NULL ');
-    }
-
-    // const usuarioRepositorio = new UsuarioRepositorio();
-    // const listaUsuarios = usuarioRepositorio.listarUsuarios('dev');
-
-    return "teste";
+    return this.usuarioRepositorio.listarUsuarios('dev');
   }
 
 }

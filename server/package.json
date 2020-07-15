@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "server/driver/webserver/index.js",
+  "main": "server/drivers/webserver/index.js",
   "scripts": {
     "clean": "rimraf '{src,test}/**/*.{js,js.map}'",
     "build": "yarn tsc",

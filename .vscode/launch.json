@@ -5,32 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      // Name of configuration; appears in the launch configuration drop down menu.
-      "name": "Launch",
-      // Type of configuration.
+      "name": "Debug index.ts",
       "type": "node",
       "request": "launch",
-      // Workspace relative or absolute path to the program.
-      "program": "${file}",
-      // Automatically stop program after launch.
-      "stopOnEntry": false,
-      // Command line arguments passed to the program.
-      "args": [],
-      // Workspace relative or absolute path to the working directory of the program being debugged. Default is the current workspace.
-      "cwd": "${workspaceRoot}",
-      // Workspace relative or absolute path to the runtime executable to be used. Default is the runtime executable on the PATH.
-      "runtimeExecutable": null,
-      // Optional arguments passed to the runtime executable.
-      "runtimeArgs": ["--nolazy"],
-      // Environment variables passed to the program.
-      "env": {
-          "NODE_ENV": "development"
-      },
-      // Use JavaScript source maps (if they exist).
-      "sourceMaps": true,
-      // If JavaScript source maps are enabled, the generated code is expected in this directory.
-      "outFiles": ["${fileDirname}/server/*.js"],
-      "console": "integratedTerminal"
+      "cwd": "${workspaceRoot}/server",
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "args": ["${workspaceRoot}/server/drivers/webserver/index.ts"]
     }
   ]
 }
