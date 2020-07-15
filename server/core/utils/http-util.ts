@@ -1,4 +1,4 @@
-import { Response, Request } from 'express';
+import { Request } from 'express';
 import { Pagina } from "./paginator/pagina.model";
 
 export class HttpUtil {
@@ -11,16 +11,16 @@ export class HttpUtil {
   //   return elementos;
   // }
 
-  public static paginarResponse(elementos: Array<any>, req: Request): Pagina {
+  public static paginarResponse(elementos: any[], req: Request): Pagina {
     const pagina = new Pagina();
 
     let paginaAtual: number;
     try {
-      paginaAtual = req.query.pagina ? +req.query.pagina : 1; 
+      paginaAtual = req.query.pagina ? +req.query.pagina : 1;
     }
-    catch (e){ paginaAtual = 0; }
+    catch (e) { paginaAtual = 0; }
 
-    const ultimoElemento      = ( (paginaAtual-1) * Pagina.TAMANHO_PAGINA_DEFAULT) + 1;
+    const ultimoElemento      = ( (paginaAtual - 1) * Pagina.TAMANHO_PAGINA_DEFAULT) + 1;
 
     pagina.totalElementos = elementos.length;
 
@@ -31,12 +31,12 @@ export class HttpUtil {
     }
     else {
       pagina.quantidadePaginas = Math.ceil(( pagina.totalElementos / Pagina.TAMANHO_PAGINA_DEFAULT ));
-      
-      const _elementos = elementos.slice(ultimoElemento - 1, 
+
+      const _elementos = elementos.slice(ultimoElemento - 1,
                                         (ultimoElemento - 1 + Pagina.TAMANHO_PAGINA_DEFAULT));
-  
+
       pagina.conteudo = _elementos;
-  
+
       pagina.paginaAtual = paginaAtual;
     }
 

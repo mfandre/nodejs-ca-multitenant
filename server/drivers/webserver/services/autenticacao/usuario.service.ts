@@ -8,8 +8,16 @@ export class UsuarioService {
   constructor(private readonly usuarioRepositorio: UsuarioRepositorio) {
   }
 
+  public login(tenant: string, valor: string, email: string )  {
+
+    const usuarios = this.usuarioRepositorio.buscarUsuarioPor(tenant, 'email', email);
+
+
+    return usuarios;
+  }
+
   public listarUsuarios(tenant: string): any {
-    return this.usuarioRepositorio.listarUsuarios('dev');
+    return this.usuarioRepositorio.listarUsuarios(tenant);
   }
 
 }
