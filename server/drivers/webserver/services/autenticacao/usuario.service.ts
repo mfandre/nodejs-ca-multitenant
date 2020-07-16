@@ -1,20 +1,26 @@
 import { Request, Response } from "express";
 import { NotFound } from "@tsed/exceptions";
 import { Service } from "@tsed/common";
+import { Inject, Scope, ProviderScope} from "@tsed/di";
 
 import { UsuarioRepositorio } from './../../repositories/autenticacao/usuario/sql/usuario.repositorio';
 import { Usuario } from "drivers/webserver/models/autenticacao/usuario/usuario.model";
 import { OAuthToken } from "../../models/autenticacao/oauth/oauth-token.model";
 import { OAuthTokenService } from "./oauth-token.service";
 
+export const KEYDS = Symbol.for("KEYDS");
+
 @Service()
+@Scope(ProviderScope.REQUEST)
 export class UsuarioService {
 
-  constructor(
-    private readonly oauthTokenService: OAuthTokenService,
-    private readonly usuarioRepositorio: UsuarioRepositorio) {
-  }
+    public constructor(@Inject(KEYDS) keyds: any,
+                       public readonly oauthTokenService: OAuthTokenService,
+                       public readonly usuarioRepositorio: UsuarioRepositorio) {
 
+      console.log('service: keyds injected: ' + keyds);
+
+  }
 
 
   public login(req: Request,

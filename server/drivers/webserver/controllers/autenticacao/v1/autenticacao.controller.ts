@@ -1,17 +1,19 @@
 import { Request, Response, NextFunction } from "express";
-import {Controller, Get, Post, BodyParams, ReturnType, Req, Res, Next} from "@tsed/common";
+import {Controller, Get, Post, BodyParams, ReturnType, Req, Res, Next } from "@tsed/common";
+import { Scope, ProviderScope} from "@tsed/di";
 import { NotFound, BadRequest } from "@tsed/exceptions";
 
 import { UsuarioService } from "../../../services/autenticacao/usuario.service";
 import { OAuthToken } from "../../../models/autenticacao/oauth/oauth-token.model";
 
 @Controller("/autenticacao")
+@Scope(ProviderScope.REQUEST)
 export class AutenticacaoController {
 
   // TODO precisa ser recuperado da request
-  private tenant = 'dev';
+  private tenant = '';
 
-  constructor(private readonly usuarioService: UsuarioService) {}
+  constructor(private usuarioService: UsuarioService) {}
 
   @Get("/list")
   auth() {

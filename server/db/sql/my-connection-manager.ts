@@ -8,8 +8,22 @@ const commonDBConnection = knex(knexConfig);
 
 export class MyConnectionManager {
 
+
   private connectionMap = new Map<string, any>();
-  private commonDBConnection = knex(knexConfig);
+
+  constructor() {
+    console.log('construindo novo connection-manager...');
+
+    this.connectionMap = new Map<string, any>();
+
+    this.connectAllDb().then((data) => {
+      // console.log(connectionManager.connectionMap)
+    }).catch(error => {
+        console.log("Can't connect to common tenant database");
+        console.log(error);
+    });
+  }
+
 
   connectAllDb = async () => {
     let tenants;

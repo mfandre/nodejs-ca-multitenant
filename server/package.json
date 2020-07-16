@@ -7,7 +7,7 @@
     "clean": "rimraf '{src,test}/**/*.{js,js.map}'",
     "build": "yarn tsc",
     "test": "mocha './**/*.spec.js' --exit",
-    "start": "nodemon --watch \"./**/*.ts\" --ignore \"node_modules/**/*\" --exec ts-node ./drivers/webserver/index.ts",
+    "start": "nodemon --watch \"./**/*.ts\" --ignore \"node_modules/**/*\" --exec ts-node ./drivers/webserver/index.ts --trace-sync-io",
     "dev": "nodemon ./drivers/webserver/server.ts",
     "knex": "knex",
     "test:lint": "tslint --project tsconfig.json",

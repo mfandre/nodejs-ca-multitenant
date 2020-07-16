@@ -1,4 +1,4 @@
-import {Configuration, Inject} from "@tsed/di";
+import {Configuration, Inject, registerProvider, ProviderScope, registerValue} from "@tsed/di";
 import {PlatformApplication, GlobalErrorHandlerMiddleware} from "@tsed/common";
 import "@tsed/platform-express"; // /!\ keep this import
 import {GlobalAcceptMimesMiddleware} from "@tsed/platform-express";
@@ -70,6 +70,14 @@ export class Server {
       .use(TenantMiddleware)
       // .use(OAuthMiddleware)
       ;
+
+      // registerProvider({
+      //   provide: Symbol.for("KEYDS"),
+      //   scope: ProviderScope.REQUEST,
+      //   useValue() {
+      //     return '_';
+      //   }
+      // });
   }
 
   $afterRoutesInit() {

@@ -1,4 +1,5 @@
-import {Err, IMiddleware, IResponseError, Middleware, Req, Res, Next} from "@tsed/common";
+import {IMiddleware, Middleware, Req, Res, Next, Context } from "@tsed/common";
+import { Inject, Scope, ProviderScope, registerProvider, registerValue } from "@tsed/di";
 
 const url = require('url');
 
@@ -6,12 +7,10 @@ const url = require('url');
 @Middleware()
 export class TenantMiddleware implements IMiddleware {
 
-  use(@Req() request: Req, @Res() response: Res, @Next() next: Next) {
-    this.resolver(request, response, next);
+  use(@Req() req: Req,
+      @Res() res: Res,
+      @Next() next: Next) {
 
-  }
-
-  protected resolver(req: Req, res: Res, next: Next) {
     const pathsPermitidosSemTenant = ['/',
                                       '/api-docs',
                                       '/api-docs/',
@@ -49,6 +48,17 @@ export class TenantMiddleware implements IMiddleware {
       res.json({message: 'Por favor defina um tenant ( Http Headers . keyds ) para processar esta requisição.'});
 
       return;
+    }
+    else {
+      registerProvider({
+        provide: Symbol.for("KEYDS"),
+        scope: ProviderScope.REQUEST,
+        useFactory() {
+          return Math.random();
+        }
+      });
+
+      // registerValue(Symbol.for("KEYDS"), req.headers['keyds']);
     }
     next();
   }
