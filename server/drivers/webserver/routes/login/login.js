@@ -14,7 +14,7 @@ login.login = (req, res, next) => {
       return;
     }
     data[0].password = undefined;
-    const token = jwt.sign(data[0], config.JWT_PW);
+    const token = jwt.sign(data[0], config.oauthJwt.JWT_PW);
     res.status(200).send({ userData: data[0], token });
   }).catch(error => {
     console.error(error);
@@ -41,9 +41,9 @@ login.auth = (req, res, next) => {
     res.status(401).send();
     return;
   }
-    
+
 	token = token.split(" ")[1];
-	const ok = jwt.verify(token, config.JWT_PW);
+	const ok = jwt.verify(token, config.oauthJwt.JWT_PW);
 	res.status(200).send(ok);
 }
 
@@ -55,7 +55,7 @@ login.checkToken = (req, res, next) => {
   }
 
   token = token.split(" ")[1];
-  jwt.verify(token, config.JWT_PW, (err, decoded) => {
+  jwt.verify(token, config.oauthJwt.JWT_PW, (err, decoded) => {
     if (err) {
       return res.status(401).send();
     } else {

@@ -1,7 +1,9 @@
-import {Controller, Get, Post, BodyParams, ReturnType} from "@tsed/common";
-import { UsuarioService } from "../../../services/autenticacao/usuario.service";
+import { Request, Response, NextFunction } from "express";
+import {Controller, Get, Post, BodyParams, ReturnType, Req, Res, Next} from "@tsed/common";
 import { NotFound, BadRequest } from "@tsed/exceptions";
-import { OAuthToken } from "./../../../models/autenticacao/oauth/token.model";
+
+import { UsuarioService } from "../../../services/autenticacao/usuario.service";
+import { OAuthToken } from "../../../models/autenticacao/oauth/oauth-token.model";
 
 @Controller("/autenticacao")
 export class AutenticacaoController {
@@ -20,12 +22,20 @@ export class AutenticacaoController {
   @Post("/oauth/token")
   @ReturnType({type: OAuthToken})
   // tslint:disable-next-line:variable-name
-  oauthToken( @BodyParams() params: {username, password, grant_type }) {
-    if ( params.grant_type === 'password' ) {
-      return this.usuarioService.login(this.tenant, params.username, params.password);
-    }
+  oauthToken( @Req() req: Request,
+              @Res() res: Response,
+              @Next() next: NextFunction,
+              @BodyParams() params: {username, password, grant_type }) {
 
-    throw (new BadRequest(""));
+    if ( params.grant_type === 'password' ) {
+      this.usuarioService.login(req, res, this.tenant, params.username, params.password)
+                         .then( (data: OAuthToken) => {
+                          res.send(data);
+                         });
+    }
+    else {
+      throw (new BadRequest(""));
+    }
   }
 
 }
