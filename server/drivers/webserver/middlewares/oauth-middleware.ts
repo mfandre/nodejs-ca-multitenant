@@ -6,14 +6,13 @@ const url = require('url');
 export class OAuthMiddleware implements IMiddleware {
 
   use(@Req() request: Req, @Res() response: Res, @Next() next: Next) {
-    const path = url.parse(request.url).pathname;
-    if ( path === '/rest/autenticacao/oauth/token'
-         && request.body['grant_type'] === 'refresh_token'
-         && request.cookies ) {
-
-          console.log('RECUPERAR REQUEST COOKIES');
-    }
-    next();
+    // const path = url.parse(request.url).pathname;
+    // if ( path === '/rest/autenticacao/oauth/token' ) {
+    // }
+    // else {
+    //   const accessToken = request.body['grant_type'] === 'password';
+    // }
+    // next();
   }
 
 }

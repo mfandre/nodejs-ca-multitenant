@@ -68,7 +68,8 @@ export class Server {
       }))
       .use(GlobalAcceptMimesMiddleware)
       .use(TenantMiddleware)
-      .use(OAuthMiddleware);
+      // .use(OAuthMiddleware)
+      ;
   }
 
   $afterRoutesInit() {

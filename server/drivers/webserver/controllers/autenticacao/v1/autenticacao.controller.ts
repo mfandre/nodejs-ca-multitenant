@@ -30,11 +30,18 @@ export class AutenticacaoController {
     if ( params.grant_type === 'password' ) {
       this.usuarioService.login(req, res, this.tenant, params.username, params.password)
                          .then( (data: OAuthToken) => {
-                          res.send(data);
+                            res.send(data);
                          });
     }
+    else if ( params.grant_type === 'refresh_token' ) {
+      if ( req.cookies ) {
+        req.cookies.forEach(cookie => {
+          console.log(cookie);
+        });
+      }
+    }
     else {
-      throw (new BadRequest(""));
+      throw (new BadRequest("grant_type não informado corretamente"));
     }
   }
 
