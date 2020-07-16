@@ -2,13 +2,13 @@ let knex = require('../../../db/sql/knex.js')
 let makeUser = require('../../../models/user/index') // model
 
 let listUsers = (tenant) => {
-  return knex.getConnectionBySlug(tenant).raw(`SELECT * FROM user;`)
+  return knex.getConnectionByKeyDS(tenant).raw(`SELECT * FROM user;`)
     .then(data => data.rows)
 }
 
 let findUser = (tenant, prop, val) => {
 
-  let conn = knex.getConnectionBySlug(tenant);
+  let conn = knex.getConnectionByKeyDS(tenant);
 
   if(conn === undefined)
     return null;
@@ -17,7 +17,7 @@ let findUser = (tenant, prop, val) => {
 }
 
 let findUsersBy = (tenant, prop, val) => {
-  let conn = knex.getConnectionBySlug(tenant);
+  let conn = knex.getConnectionByKeyDS(tenant);
 
   if(conn === undefined)
     return null;
@@ -25,7 +25,7 @@ let findUsersBy = (tenant, prop, val) => {
 }
 
 let addUser = (tenant, userInfo) => {
-  let conn = knex.getConnectionBySlug(tenant);
+  let conn = knex.getConnectionByKeyDS(tenant);
 
   if(conn === undefined)
     return null;
@@ -42,7 +42,7 @@ let addUser = (tenant, userInfo) => {
 }
 
 let deleteUser = (tenant, id) => {
-  let conn = knex.getConnectionBySlug(tenant);
+  let conn = knex.getConnectionByKeyDS(tenant);
 
   if(conn === undefined)
     return null;
@@ -53,7 +53,7 @@ let deleteUser = (tenant, id) => {
 }
 
 let dropAll = (tenant) => {
-  let conn = knex.getConnectionBySlug(tenant);
+  let conn = knex.getConnectionByKeyDS(tenant);
 
   if(conn === undefined)
     return null;

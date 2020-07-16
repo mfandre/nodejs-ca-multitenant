@@ -64,7 +64,7 @@ connectionManager.createConnectionConfig = (tenant) => {
 /**
  *  Get the connection information (knex instance) for the given tenant's slug.
 **/
-connectionManager.getConnectionBySlug = (slug) => {
+connectionManager.getConnectionByKeyDS = (slug) => {
 
   if (connectionManager.connectionMap) {
 

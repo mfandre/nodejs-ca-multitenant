@@ -144,13 +144,13 @@ System.register("app/seguranca/usuario/model/usuario.model", ["app/core/default-
 });
 System.register("drivers/webserver/middlewares/tenant-resolver-middleware", [], function (exports_7, context_7) {
     "use strict";
-    var url, getConnectionBySlug, getNamespace, TenantResolverMiddleware;
+    var url, getConnectionByKeyDS, getNamespace, TenantResolverMiddleware;
     var __moduleName = context_7 && context_7.id;
     return {
         setters: [],
         execute: function () {
             url = require('url');
-            getConnectionBySlug = require('../../../db/sql/connectionManager').getConnectionBySlug;
+            getConnectionByKeyDS = require('../../../db/sql/connectionManager').getConnectionByKeyDS;
             getNamespace = require('continuation-local-storage').getNamespace;
             TenantResolverMiddleware = class TenantResolverMiddleware {
                 resolver(req, res, next) {

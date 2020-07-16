@@ -28,7 +28,7 @@ export class MyConnectionManager {
           const typedKnex = knex(this.createConnectionConfig(tenant));
 
           return {
-            [tenant.slug]: typedKnex
+            [tenant.keyds]: typedKnex
           };
         })
         .reduce((prev, next) => {
@@ -53,12 +53,12 @@ export class MyConnectionManager {
     };
   };
 
-  public getConnectionBySlug = (slug): any => {
+  public getConnectionByKeyDS = (keyds): any => {
 
     if ( this.connectionMap ) {
-      console.log("slug=>", slug);
+      console.log("keyds=>", keyds);
 
-      return this.connectionMap[slug];
+      return this.connectionMap[keyds];
     }
   };
 

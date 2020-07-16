@@ -10,14 +10,14 @@ export class UsuarioRepositorio {
 
   public listarUsuarios = (tenant) => {
     return this.knex.getConnectionManager()
-                    .getConnectionBySlug(tenant)
+                    .getConnectionByKeyDS(tenant)
                     .raw(`SELECT * FROM [user];`)
                     .then(data => data.rows);
   }
 
   public buscarUsuarioPor = (tenant, prop, val): Promise<Usuario[]> => {
     const conn = this.knex.getConnectionManager()
-                          .getConnectionBySlug(tenant);
+                          .getConnectionByKeyDS(tenant);
 
     return conn.select('*')
                .from('user')
@@ -26,7 +26,7 @@ export class UsuarioRepositorio {
 
   public buscarUsuarioV2Por = (tenant, val): Promise<Usuario[]> => {
     const conn = this.knex.getConnectionManager()
-                          .getConnectionBySlug(tenant);
+                          .getConnectionByKeyDS(tenant);
 
     return conn.select('*')
                .from('pssoa')

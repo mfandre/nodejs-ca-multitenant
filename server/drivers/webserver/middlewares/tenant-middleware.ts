@@ -43,10 +43,10 @@ export class TenantMiddleware implements IMiddleware {
       }
     }
 
-    if ( tenantNecessario && !req.headers['slug'] ) {
-      console.error("Nenhum tenant definido no header");
+    if ( tenantNecessario && !req.headers['keyds'] ) {
+      console.error("Nenhum tenant (keyds) definido no header");
       res.status(400);
-      res.json({message: 'Por favor defina um tenant ( Http Headers ) para processar esta requisição.'});
+      res.json({message: 'Por favor defina um tenant ( Http Headers . keyds ) para processar esta requisição.'});
 
       return;
     }
