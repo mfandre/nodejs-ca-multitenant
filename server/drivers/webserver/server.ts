@@ -10,6 +10,7 @@ import * as cors from "cors";
 import "@tsed/ajv";
 import "@tsed/swagger";
 import { TenantMiddleware } from "./middlewares/tenant-middleware";
+import { OAuthMiddleware } from "./middlewares/oauth-middleware";
 export const rootDir = __dirname;
 
 const config = require('../../config');
@@ -58,22 +59,20 @@ export class Server {
   $beforeRoutesInit() {
     this.app
       .use(cors())
-      .use(GlobalAcceptMimesMiddleware)
-      .use(TenantMiddleware)
       .use(cookieParser())
       .use(compress({}))
       .use(methodOverride())
       .use(bodyParser.json())
       .use(bodyParser.urlencoded({
         extended: true
-      }));
-
-    const knex = require('./../../db/sql/knex');
-
-    return null;
+      }))
+      .use(GlobalAcceptMimesMiddleware)
+      .use(TenantMiddleware)
+      .use(OAuthMiddleware);
   }
 
   $afterRoutesInit() {
     this.app.use(GlobalErrorHandlerMiddleware);
+    const knex = require('./../../db/sql/knex');
   }
 }

@@ -19,7 +19,18 @@ export class UsuarioRepositorio {
     const conn = this.knex.getConnectionManager()
                           .getConnectionBySlug(tenant);
 
-    return conn.select('*').from('user').where(prop, '=', val);
+    return conn.select('*')
+               .from('user')
+               .where(prop, '=', val);
+  }
+
+  public buscarUsuarioV2Por = (tenant, val): Promise<Usuario[]> => {
+    const conn = this.knex.getConnectionManager()
+                          .getConnectionBySlug(tenant);
+
+    return conn.select('*')
+               .from('pssoa')
+               .where('nm_pssoa_email', '=', val);
   }
 
 
