@@ -4,6 +4,8 @@ import { Inject, Scope, ProviderScope} from "@tsed/di";
 import { MyKnex } from "../../../../../../db/sql/my-knex";
 import { Usuario } from './../../../../models/autenticacao/usuario/usuario.model';
 
+const getNamespace = require('continuation-local-storage').getNamespace;
+
 export const KEYDS = Symbol.for("KEYDS");
 
 
@@ -13,19 +15,19 @@ export class UsuarioRepositorio {
 
   public conn = null;
 
-  public constructor(@Inject(KEYDS) keyds: any) {
+  public constructor() { // @Inject(KEYDS) keyds: any
 
-    console.log('.');
-    console.log('injected keyds: ' + keyds);
-    console.log('.');
+    // console.log('.');
+    // console.log('injected keyds: ' + keyds);
+    // console.log('.');
 
-    const knex = new MyKnex();
-    this.conn = knex.getConnectionManager()
-                    .getConnectionByKeyDS(keyds);
+    // const knex = new MyKnex();
+    // this.conn = knex.getConnectionManager()
+    //                 .getConnectionByKeyDS(keyds);
 
-    if ( this.conn ) {
-      console.log('connection is not null...');
-    }
+    // if ( this.conn ) {
+    //   console.log('connection is not null...');
+    // }
   }
 
 
@@ -36,6 +38,12 @@ export class UsuarioRepositorio {
   }
 
   public buscarUsuarioPor = (tenant, prop, val): Promise<Usuario[]> => {
+
+    // const session = getNamespace('namespaceRequestScope');
+    // if ( session ) {
+    //   const _keyds = session.get('keyds');
+    // }
+
     return this.conn.select('*')
                     .from('user')
                     .where(prop, '=', val);

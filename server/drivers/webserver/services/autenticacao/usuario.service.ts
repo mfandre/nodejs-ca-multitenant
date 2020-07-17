@@ -14,13 +14,8 @@ export const KEYDS = Symbol.for("KEYDS");
 @Scope(ProviderScope.REQUEST)
 export class UsuarioService {
 
-    public constructor(@Inject(KEYDS) keyds: any,
-                       public readonly oauthTokenService: OAuthTokenService,
-                       public readonly usuarioRepositorio: UsuarioRepositorio) {
-
-      console.log('service: keyds injected: ' + keyds);
-
-  }
+    public constructor(public readonly oauthTokenService: OAuthTokenService,
+                       public readonly usuarioRepositorio: UsuarioRepositorio) {}
 
 
   public login(req: Request,

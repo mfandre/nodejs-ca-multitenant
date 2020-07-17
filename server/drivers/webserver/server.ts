@@ -1,4 +1,4 @@
-import {Configuration, Inject, registerProvider, ProviderScope, registerValue} from "@tsed/di";
+import {Configuration, Inject } from "@tsed/di";
 import {PlatformApplication, GlobalErrorHandlerMiddleware} from "@tsed/common";
 import "@tsed/platform-express"; // /!\ keep this import
 import {GlobalAcceptMimesMiddleware} from "@tsed/platform-express";
@@ -11,6 +11,7 @@ import "@tsed/ajv";
 import "@tsed/swagger";
 import { TenantMiddleware } from "./middlewares/tenant-middleware";
 import { OAuthMiddleware } from "./middlewares/oauth-middleware";
+import { TesteMiddleware } from "./middlewares/teste-middleware";
 export const rootDir = __dirname;
 
 const config = require('../../config');
@@ -67,17 +68,10 @@ export class Server {
         extended: true
       }))
       .use(GlobalAcceptMimesMiddleware)
+      // .use(TesteMiddleware)
       .use(TenantMiddleware)
       // .use(OAuthMiddleware)
       ;
-
-      // registerProvider({
-      //   provide: Symbol.for("KEYDS"),
-      //   scope: ProviderScope.REQUEST,
-      //   useValue() {
-      //     return '_';
-      //   }
-      // });
   }
 
   $afterRoutesInit() {

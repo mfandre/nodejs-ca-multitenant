@@ -1,5 +1,9 @@
 import {IMiddleware, Middleware, Req, Res, Next, Context } from "@tsed/common";
 import { Inject, Scope, ProviderScope, registerProvider, registerValue } from "@tsed/di";
+import { constructorOf } from "@tsed/core";
+
+import { MyKnex } from "./../../../db/sql/my-knex";
+const createNamespace = require('continuation-local-storage').createNamespace;
 
 const url = require('url');
 
@@ -50,16 +54,35 @@ export class TenantMiddleware implements IMiddleware {
       return;
     }
     else {
-      registerProvider({
-        provide: Symbol.for("KEYDS"),
-        scope: ProviderScope.REQUEST,
-        useFactory() {
-          return Math.random();
-        }
+
+      const session = createNamespace('namespaceRequestScope');
+      session.bindEmitter(req);
+      session.bindEmitter(res);
+      session.run(() => {
+        // console.log('keyds: ' + req.headers['keyds']);
+        session.set('keyds', Math.random());
+        // console.log('keyds __from session: ' + session.get('keyds'));
       });
 
-      // registerValue(Symbol.for("KEYDS"), req.headers['keyds']);
+      next();
+
+      // const keydsFromHeader = req.headers['keyds'];
+      // console.log('req.headers -> outside: ' + keydsFromHeader);
+
+      // registerProvider({
+      //   provide: Symbol.for("KEYDS"),
+      //   scope: ProviderScope.REQUEST,
+      //   // useAsyncFactory() {
+      //   //   console.log('req.headers -> inside a: ' + keydsFromHeader);
+      //   // },
+
+      //   // useFactory() {
+      //   //   console.log('req.headers -> inside b: ' + keydsFromHeader);
+      //   //   const knex = new MyKnex();
+      //   //   const conn = knex.getConnectionManager()
+      //   //                    .getConnectionByKeyDS(req.headers['keyds']);
+      // });
     }
-    next();
+    // next();
   }
 }
