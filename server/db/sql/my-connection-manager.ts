@@ -16,10 +16,10 @@ export class MyConnectionManager {
 
     this.connectionMap = new Map<string, any>();
 
-    this.connectAllDb().then((data) => {
-      // console.log(connectionManager.connectionMap)
+    this.connectAllDb().then(() => {
+      console.log('connectionMap: ' + this.connectionMap);
     }).catch(error => {
-        console.log("Can't connect to common tenant database");
+        console.log("Não foi possível se conectar ao common tenant database");
         console.log(error);
     });
   }
