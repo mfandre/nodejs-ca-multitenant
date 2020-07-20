@@ -8,7 +8,8 @@ module.exports = {
     JWT_PW: process.env.JWT_PW || 'key_jwt',
     ACCESS_TOKEN_EXPIRES_MILLI: 10000,
     REFRESH_TOKEN_EXPIRES_MILLI: 30000,
-    REFRESH_TOKEN_COOKIE_MAXAGE_MILLI: 2592000
+    REFRESH_TOKEN_COOKIE_MAX_AGE_MILLI: 2592000,
+    CLIENT_ID: 'hmap'
   },
 
   mongo: {

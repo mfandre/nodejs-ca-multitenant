@@ -7,17 +7,22 @@ export class DefaultRepository<T> {
   private request: Request;
 
   public getConn() {
-    try {
+      if ( !this.request ) {
+        throw (new Error('Verifique se o objeto Request foi definido na camada do controller, serviço ou repositório.'));
+      }
+
       const keyds = this.request.headers['keyds'];
+
+      if ( !keyds ) {
+        throw (new Error('Verifique se a identificação do tenant ( keyds ) está presente na requisição.'));
+      }
 
       this.conn = MyKnex.getConnectionManager()
                         .getConnectionByKeyDS(keyds);
-    }
-    catch (e) {
-      console.error(e);
 
-      return null;
-    }
+      if ( !this.conn ) {
+        throw (new Error('Conexão não estabelecida para o tenant ' + keyds));
+      }
 
     return this.conn;
   }
