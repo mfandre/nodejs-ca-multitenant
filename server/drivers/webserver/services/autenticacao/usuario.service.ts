@@ -1,34 +1,31 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { NotFound } from "@tsed/exceptions";
 import { Service } from "@tsed/common";
-import { Inject, Scope, ProviderScope} from "@tsed/di";
 
 import { UsuarioRepositorio } from './../../repositories/autenticacao/usuario/sql/usuario.repositorio';
 import { Usuario } from "drivers/webserver/models/autenticacao/usuario/usuario.model";
 import { OAuthToken } from "../../models/autenticacao/oauth/oauth-token.model";
 import { OAuthTokenService } from "./oauth-token.service";
-
-export const KEYDS = Symbol.for("KEYDS");
+import { DefaultService } from "../../../../core/mvc/default-service";
 
 @Service()
-@Scope(ProviderScope.REQUEST)
-export class UsuarioService {
+export class UsuarioService extends DefaultService<Usuario> {
 
-    public constructor(public readonly oauthTokenService: OAuthTokenService,
-                       public readonly usuarioRepositorio: UsuarioRepositorio) {}
+  constructor(private oauthTokenService: OAuthTokenService,
+              private usuarioRepositorio: UsuarioRepositorio) {
+    super();
+  }
 
-
-  public login(req: Request,
-               res: Response,
-               tenant: string,
+  public login(res: Response,
                email: string,
                senha: string): Promise<OAuthToken> {
 
      return this.usuarioRepositorio
-                .buscarUsuarioPor(tenant, 'email', email)
+                .setRequest(super.getRequest())
+                .buscarUsuarioPor('email', email)
                 .then( (usuarios: Usuario[]) => {
                   if ( usuarios.length !== 1 ) {
-                    throw (new NotFound("Usuário não encontrado"));
+                    throw (new NotFound("Objeto não encontrado"));
                   }
                   const usuario = usuarios[0];
 
@@ -42,7 +39,4 @@ export class UsuarioService {
                 });
   }
 
-  public listarUsuarios(tenant: string): any {
-    return this.usuarioRepositorio.listarUsuarios(tenant);
-  }
 }

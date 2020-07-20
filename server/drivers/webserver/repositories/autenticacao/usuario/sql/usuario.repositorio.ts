@@ -1,59 +1,27 @@
 import { Injectable } from "@tsed/common";
-import { Inject, Scope, ProviderScope} from "@tsed/di";
 
-import { MyKnex } from "../../../../../../db/sql/my-knex";
+import { DefaultRepository } from "./../../../../../../core/mvc/default-repository";
 import { Usuario } from './../../../../models/autenticacao/usuario/usuario.model';
-
-const getNamespace = require('continuation-local-storage').getNamespace;
-
-export const KEYDS = Symbol.for("KEYDS");
 
 
 @Injectable()
-@Scope(ProviderScope.REQUEST)
-export class UsuarioRepositorio {
+export class UsuarioRepositorio extends DefaultRepository<Usuario> {
 
-  public conn = null;
-
-  public constructor() { // @Inject(KEYDS) keyds: any
-
-    // console.log('.');
-    // console.log('injected keyds: ' + keyds);
-    // console.log('.');
-
-    // const knex = new MyKnex();
-    // this.conn = knex.getConnectionManager()
-    //                 .getConnectionByKeyDS(keyds);
-
-    // if ( this.conn ) {
-    //   console.log('connection is not null...');
-    // }
+  public listarUsuarios = () => {
+    return this.getConn().raw(`SELECT * FROM [user];`)
+                         .then(data => data.rows);
   }
 
-
-
-  public listarUsuarios = (tenant) => {
-    return this.conn.raw(`SELECT * FROM [user];`)
-                    .then(data => data.rows);
+  public buscarUsuarioPor = (prop, val): Promise<Usuario[]> => {
+    return this.getConn().select('*')
+                         .from('user')
+                         .where(prop, '=', val);
   }
 
-  public buscarUsuarioPor = (tenant, prop, val): Promise<Usuario[]> => {
-
-    // const session = getNamespace('namespaceRequestScope');
-    // if ( session ) {
-    //   const _keyds = session.get('keyds');
-    // }
-
-    return this.conn.select('*')
-                    .from('user')
-                    .where(prop, '=', val);
+  public buscarUsuarioV2Por = (val): Promise<Usuario[]> => {
+    return this.getConn().select('*')
+                         .from('pssoa')
+                         .where('nm_pssoa_email', '=', val);
   }
-
-  public buscarUsuarioV2Por = (tenant, val): Promise<Usuario[]> => {
-    return this.conn.select('*')
-                    .from('pssoa')
-                    .where('nm_pssoa_email', '=', val);
-  }
-
 
 }

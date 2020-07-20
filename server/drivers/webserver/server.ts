@@ -2,16 +2,17 @@ import {Configuration, Inject } from "@tsed/di";
 import {PlatformApplication, GlobalErrorHandlerMiddleware} from "@tsed/common";
 import "@tsed/platform-express"; // /!\ keep this import
 import {GlobalAcceptMimesMiddleware} from "@tsed/platform-express";
-import * as bodyParser from "body-parser";
 import * as compress from "compression";
 import * as cookieParser from "cookie-parser";
 import * as methodOverride from "method-override";
 import * as cors from "cors";
 import "@tsed/ajv";
 import "@tsed/swagger";
+import * as bodyParser from "body-parser";
+
+import { MyKnex } from './../../db/sql/my-knex';
 import { TenantMiddleware } from "./middlewares/tenant-middleware";
-import { OAuthMiddleware } from "./middlewares/oauth-middleware";
-import { TesteMiddleware } from "./middlewares/teste-middleware";
+
 export const rootDir = __dirname;
 
 const config = require('../../config');
@@ -68,7 +69,6 @@ export class Server {
         extended: true
       }))
       .use(GlobalAcceptMimesMiddleware)
-      // .use(TesteMiddleware)
       .use(TenantMiddleware)
       // .use(OAuthMiddleware)
       ;
@@ -76,6 +76,6 @@ export class Server {
 
   $afterRoutesInit() {
     this.app.use(GlobalErrorHandlerMiddleware);
-    const knex = require('./../../db/sql/knex');
+    MyKnex.getConnectionManager();
   }
 }
