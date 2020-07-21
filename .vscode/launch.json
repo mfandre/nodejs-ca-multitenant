@@ -10,7 +10,7 @@
       "request": "launch",
       "cwd": "${workspaceRoot}/server",
       "runtimeArgs": ["-r", "ts-node/register"],
-      "args": ["${workspaceRoot}/server/drivers/webserver/index.ts"]
+      "args": ["${workspaceRoot}/server/webserver/index.ts"]
     }
   ]
 }
