@@ -20,8 +20,17 @@ export class DefaultRepository<T> {
       this.conn = MyKnex.getConnectionManager()
                         .getConnectionByKeyDS(keyds);
 
+      // nova tentativa de conexão
       if ( !this.conn ) {
-        throw (new Error('Conexão não estabelecida para o tenant ' + keyds));
+        MyKnex.getConnectionManager()
+              .connectAllDb();
+
+        this.conn = MyKnex.getConnectionManager()
+                          .getConnectionByKeyDS(keyds);
+
+        if ( !this.conn ) {
+          throw (new Error('Conexão não estabelecida para o tenant ' + keyds));
+        }
       }
 
     return this.conn;

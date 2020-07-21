@@ -1,6 +1,6 @@
 import { Property } from "@tsed/common";
 
-export class OAuthToken {
+export class OAuthTokenResponseDTO {
 
   @Property()
   // tslint:disable-next-line:variable-name

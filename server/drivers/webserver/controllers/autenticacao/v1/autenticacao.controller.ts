@@ -4,7 +4,7 @@ import { Scope, ProviderScope} from "@tsed/di";
 import { BadRequest } from "@tsed/exceptions";
 
 import { UsuarioService } from "../../../services/autenticacao/usuario.service";
-import { OAuthToken } from "../../../models/autenticacao/oauth/oauth-token.model";
+import { OAuthTokenResponseDTO } from "../../../models/autenticacao/oauth/oauth-token-response-dto.model";
 
 
 @Controller("/autenticacao")
@@ -13,7 +13,7 @@ export class AutenticacaoController {
   constructor(private usuarioService: UsuarioService) {}
 
   @Post("/oauth/token")
-  @ReturnType({type: OAuthToken})
+  @ReturnType({type: OAuthTokenResponseDTO})
   oauthToken( @Req() req: Request,
               @Res() res: Response,
               @Next() next: NextFunction,
@@ -22,7 +22,7 @@ export class AutenticacaoController {
     if ( params.grant_type === 'password' ) {
       this.usuarioService.setRequest(req)
                          .login(res, params.username, params.password)
-                             .then( (data: OAuthToken) => {
+                             .then( (data: OAuthTokenResponseDTO) => {
                                 res.send(data);
                              });
     }

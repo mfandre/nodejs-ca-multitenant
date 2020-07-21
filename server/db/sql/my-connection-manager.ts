@@ -17,7 +17,8 @@ export class MyConnectionManager {
     this.connectionMap = new Map<string, any>();
 
     this.connectAllDb().then(() => {
-      console.log('connectionMap: ' + JSON.stringify(this.connectionMap));
+      console.log('connectionMap...');
+      console.log(this.connectionMap);
     }).catch(error => {
         console.log("Não foi possível se conectar ao common tenant database");
         console.log(error);

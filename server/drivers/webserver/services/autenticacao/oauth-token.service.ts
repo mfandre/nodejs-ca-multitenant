@@ -1,7 +1,8 @@
+import { AccessTokenJwtCriptoDTO } from './../../models/autenticacao/oauth/access-token-jwt-cripto-dto.model';
 import { Response } from "express";
 import { Service } from "@tsed/common";
 
-import { OAuthToken } from '../../models/autenticacao/oauth/oauth-token.model';
+import { OAuthTokenResponseDTO } from '../../models/autenticacao/oauth/oauth-token-response-dto.model';
 import { Usuario } from './../../models/autenticacao/usuario/usuario.model';
 
 const jwt = require('jsonwebtoken');
@@ -11,25 +12,41 @@ const config = require('../../../../config');
 @Service()
 export class OAuthTokenService {
 
-  public criarOAuthToken( usuario: Usuario ): OAuthToken {
+  public criarAcessToken( usuario: Usuario ): OAuthTokenResponseDTO {
     const jwtOptions = {
-      expiresIn: config.oauthJwt.ACCESS_TOKEN_EXPIRES_MILLI
+      // expiresIn: config.oauthJwt.ACCESS_TOKEN_EXPIRES_MILLI
     };
-    usuario.password = '';
-    const accessToken = jwt.sign(usuario, config.oauthJwt.JWT_PW, jwtOptions);
 
-    const token = new OAuthToken();
-    token.access_token = accessToken;
-    token.token_type = 'bearer';
-    token.scope = 'read write';
-    token.tipo = 'U';
-    token.statusCadastro = 'C';
-    token.trocarSenha = false;
-    token.nome = usuario.name;
-    token.id = '' + usuario.id;
-    token.jti = '';
+    const expiresIn: number = new Date().getTime() + config.oauthJwt.ACCESS_TOKEN_EXPIRES_MILLI;
 
-    return token;
+    const tokenCripto: AccessTokenJwtCriptoDTO = {
+      tipo : 'U',
+      user_name : usuario.email,
+      scope : ['read', 'write'],
+      statusCadastro : 'C',
+      trocarSenha : false,
+      nome : usuario.name,
+      id : usuario.id,
+      authorities : this.getMockPermissoes(),
+      jti : '',
+      client_id : config.oauthJwt.CLIENT_ID,
+      exp: expiresIn
+    };
+
+    const accessToken = jwt.sign(tokenCripto, config.oauthJwt.JWT_PW, jwtOptions);
+
+    const tokenResponseDTO = new OAuthTokenResponseDTO();
+    tokenResponseDTO.access_token = accessToken;
+    tokenResponseDTO.token_type = 'bearer';
+    tokenResponseDTO.scope = 'read write';
+    tokenResponseDTO.tipo = 'U';
+    tokenResponseDTO.statusCadastro = 'C';
+    tokenResponseDTO.trocarSenha = false;
+    tokenResponseDTO.nome = usuario.name;
+    tokenResponseDTO.id = '' + usuario.id;
+    tokenResponseDTO.jti = '';
+
+    return tokenResponseDTO;
   }
 
   public criarRefreshToken(usuario: Usuario): string {

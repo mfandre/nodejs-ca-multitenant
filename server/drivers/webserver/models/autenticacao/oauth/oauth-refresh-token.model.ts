@@ -1,8 +1,7 @@
-import { OAuthToken } from './oauth-token.model';
+import { OAuthTokenResponseDTO } from './oauth-token-response-dto.model';
 import { Property } from '@tsed/common';
 
-export class OAuthRefreshToken extends OAuthToken {
-
+export class OAuthRefreshToken extends OAuthTokenResponseDTO {
 
   @Property()
   // tslint:disable-next-line:variable-name

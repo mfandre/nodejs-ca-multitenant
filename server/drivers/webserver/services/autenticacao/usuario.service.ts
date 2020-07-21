@@ -1,10 +1,10 @@
 import { Response } from "express";
-import { NotFound } from "@tsed/exceptions";
+import { NotFound, Unauthorized } from "@tsed/exceptions";
 import { Service } from "@tsed/common";
 
 import { UsuarioRepositorio } from './../../repositories/autenticacao/usuario/sql/usuario.repositorio';
 import { Usuario } from "drivers/webserver/models/autenticacao/usuario/usuario.model";
-import { OAuthToken } from "../../models/autenticacao/oauth/oauth-token.model";
+import { OAuthTokenResponseDTO } from "../../models/autenticacao/oauth/oauth-token-response-dto.model";
 import { OAuthTokenService } from "./oauth-token.service";
 import { DefaultService } from "../../../../core/mvc/default-service";
 
@@ -18,7 +18,7 @@ export class UsuarioService extends DefaultService<Usuario> {
 
   public login(res: Response,
                email: string,
-               senha: string): Promise<OAuthToken> {
+               senha: string): Promise<OAuthTokenResponseDTO> {
 
      return this.usuarioRepositorio
                 .setRequest(super.getRequest())
@@ -29,13 +29,15 @@ export class UsuarioService extends DefaultService<Usuario> {
                   }
                   const usuario = usuarios[0];
 
-                  if ( usuario && usuario.password === senha ) {
-                    const oauthToken: OAuthToken = this.oauthTokenService.criarOAuthToken(usuario);
-                    const refreshToken = this.oauthTokenService.criarRefreshToken(usuario);
-                    this.oauthTokenService.injetarRefreshTokenNoCookie(refreshToken, res);
-
-                    return oauthToken;
+                  if ( usuario.password !== senha ) {
+                    throw (new Unauthorized("Credencial não autorizada"));
                   }
+
+                  const oauthTokenResponseDTO: OAuthTokenResponseDTO = this.oauthTokenService.criarAcessToken(usuario);
+                  const refreshToken = this.oauthTokenService.criarRefreshToken(usuario);
+                  this.oauthTokenService.injetarRefreshTokenNoCookie(refreshToken, res);
+
+                  return oauthTokenResponseDTO;
                 });
   }
 
