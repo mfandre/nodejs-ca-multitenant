@@ -43,7 +43,7 @@
     "arrow-return-shorthand": true,
     "object-literal-shorthand": true,
     "array-type": [
-      true,
+      false,
       "array"
     ],
     "typedef-whitespace": [

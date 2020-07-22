@@ -1,5 +1,5 @@
-import "@tsed/ajv";
-import { Property } from "@tsed/common";
+import '@tsed/ajv';
+import { Property } from '@tsed/common';
 
 
 export class Usuario {

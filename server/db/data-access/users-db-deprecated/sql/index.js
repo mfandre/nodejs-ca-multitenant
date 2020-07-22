@@ -1,4 +1,4 @@
-let knex = require('../../../db/sql/knex.js')
+let knex = require('../../../sql/knex.js')
 let makeUser = require('../../../models/user/index') // model
 
 let listUsers = (tenant) => {

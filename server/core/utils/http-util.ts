@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { Pagina } from "./paginator/pagina.model";
+import { Pagina } from './paginator/pagina.model';
 
 export class HttpUtil {
 

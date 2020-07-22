@@ -12,10 +12,11 @@ export class ArrayUtil {
       try {
         return arr.filter( (o, index) => {
           const _o = JSON.stringify(o);
+
           return index === arr.findIndex(obj => {
             return JSON.stringify(obj) === _o;
-          })
-        })
+          });
+        });
       }
       catch (e) {
         return arr;

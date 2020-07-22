@@ -1,9 +1,9 @@
-import {Err, IMiddleware, IResponseError, Middleware, Req, Res} from "@tsed/common";
-import {Env} from "@tsed/core";
-import {Constant} from "@tsed/di";
-import {Exception} from "@tsed/exceptions";
+import {Err, IMiddleware, IResponseError, Middleware, Req, Res} from '@tsed/common';
+import {Env} from '@tsed/core';
+import {Constant} from '@tsed/di';
+import {Exception} from '@tsed/exceptions';
 
-const toHTML = (message = "") => message.replace(/\n/gi, "<br />");
+const toHTML = (message = '') => message.replace(/\n/gi, '<br />');
 
 function getErrors(error: any) {
   return [error, error.origin]
@@ -29,11 +29,11 @@ function getHeaders(error: any) {
 
 @Middleware()
 export class GlobalErrorHandlerMiddleware implements IMiddleware {
-  @Constant("env")
+  @Constant('env')
   env: Env;
 
   use(@Err() error: any, @Req() request: Req, @Res() response: Res): any {
-    if (typeof error === "string") {
+    if (typeof error === 'string') {
       response.status(404).send(toHTML(error));
 
       return;
@@ -60,7 +60,7 @@ export class GlobalErrorHandlerMiddleware implements IMiddleware {
 
     response
       .set(getHeaders(error))
-      .status(err.status).json(this.env === Env.PROD ? "InternalServerError" : err);
+      .status(err.status).json(this.env === Env.PROD ? 'InternalServerError' : err);
   }
 
   protected handleException(error: any, request: Req, response: Res) {

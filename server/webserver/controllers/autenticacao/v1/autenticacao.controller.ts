@@ -45,7 +45,7 @@ export class AutenticacaoController {
   }
 
   @Get('/teste-perm')
-  @CustomAuth( {role: Role.USUARIO, scopes: [ChavePermissao.TESTE] })
+  @CustomAuth( { scopes: [ChavePermissao.TESTE] })
   testePerm( @Req() req: Request,
              @Res() res: Response,
              @Next() next: NextFunction) {

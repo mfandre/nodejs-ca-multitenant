@@ -6,7 +6,7 @@ const environment = config.NODE_ENV || 'development';
 const knexConfig = require('../../knexfile')[environment];
 const commonDBConnection = knex(knexConfig);
 
-export class MyConnectionManager {
+export class ConnectionManager {
 
 
   private connectionMap = new Map<string, any>();

@@ -1,5 +1,5 @@
-import { MyKnex } from './../../db/sql/my-knex';
-import { Request } from "express";
+import { Knex } from '../../db/sql/knex';
+import { Request } from 'express';
 
 export class DefaultRepository<T> {
 
@@ -17,16 +17,16 @@ export class DefaultRepository<T> {
         throw (new Error('Verifique se a identificação do tenant ( keyds ) está presente na requisição.'));
       }
 
-      this.conn = MyKnex.getConnectionManager()
-                        .getConnectionByKeyDS(keyds);
+      this.conn = Knex.getConnectionManager()
+                      .getConnectionByKeyDS(keyds);
 
       // nova tentativa de conexão
       if ( !this.conn ) {
-        MyKnex.getConnectionManager()
+        Knex.getConnectionManager()
               .connectAllDb();
 
-        this.conn = MyKnex.getConnectionManager()
-                          .getConnectionByKeyDS(keyds);
+        this.conn = Knex.getConnectionManager()
+                        .getConnectionByKeyDS(keyds);
 
         if ( !this.conn ) {
           throw (new Error('Conexão não estabelecida para o tenant ' + keyds));

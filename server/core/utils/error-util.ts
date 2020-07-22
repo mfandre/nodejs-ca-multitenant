@@ -1,5 +1,5 @@
 import { IResponseError } from '@tsed/common';
-import { Response } from "express";
+import { Response } from 'express';
 import { Exception } from '@tsed/exceptions';
 
 export class ErrorUtil {

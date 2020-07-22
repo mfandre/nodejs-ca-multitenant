@@ -10,7 +10,7 @@ import '@tsed/ajv';
 import '@tsed/swagger';
 import * as bodyParser from 'body-parser';
 
-import { MyKnex } from './../db/sql/my-knex';
+import { Knex } from '../db/sql/knex';
 import { TenantMiddleware } from './middlewares/tenant-middleware';
 
 export const rootDir = __dirname;
@@ -74,6 +74,6 @@ export class Server {
 
   $afterRoutesInit() {
     this.app.use(GlobalErrorHandlerMiddleware);
-    MyKnex.getConnectionManager();
+    Knex.getConnectionManager();
   }
 }
