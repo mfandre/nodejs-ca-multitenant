@@ -1,6 +1,6 @@
-import { Injectable } from "@tsed/common";
+import { Injectable } from '@tsed/common';
 
-import { DefaultRepository } from "./../../../../../core/mvc/default-repository";
+import { DefaultRepository } from './../../../../../core/mvc/default-repository';
 import { Usuario } from './../../../../models/autenticacao/usuario/usuario.model';
 
 

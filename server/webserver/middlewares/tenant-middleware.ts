@@ -1,6 +1,4 @@
-import {IMiddleware, Middleware, Req, Res, Next } from "@tsed/common";
-
-const createNamespace = require('continuation-local-storage').createNamespace;
+import {IMiddleware, Middleware, Req, Res, Next } from '@tsed/common';
 
 const url = require('url');
 
@@ -8,10 +6,7 @@ const url = require('url');
 @Middleware()
 export class TenantMiddleware implements IMiddleware {
 
-  use(@Req() req: Req,
-      @Res() res: Res,
-      @Next() next: Next) {
-
+  use(@Req() req: Req, @Res() res: Res, @Next() next: Next) {
     const pathsPermitidosSemTenant = ['/',
                                       '/api-docs',
                                       '/api-docs/',
@@ -25,7 +20,7 @@ export class TenantMiddleware implements IMiddleware {
                                       '/api-docs/swagger.json'];
 
     const path = url.parse(req.url).pathname;
-    console.log("req.path", path );
+    console.log('req.path', path );
     let tenantNecessario = true;
 
     for (let i = 0; i < pathsPermitidosSemTenant.length; i++) {
@@ -44,42 +39,13 @@ export class TenantMiddleware implements IMiddleware {
     }
 
     if ( tenantNecessario && !req.headers['keyds'] ) {
-      console.error("Nenhum tenant (keyds) definido no header");
+      console.error('Nenhum tenant (keyds) definido no header');
       res.status(400);
       res.json({message: 'Por favor defina um tenant ( Http Headers . keyds ) para processar esta requisição.'});
 
       return;
     }
-    else {
 
-      const session = createNamespace('namespaceRequestScope');
-      session.bindEmitter(req);
-      session.bindEmitter(res);
-      session.run(() => {
-        // console.log('keyds: ' + req.headers['keyds']);
-        session.set('keyds', Math.random());
-        // console.log('keyds __from session: ' + session.get('keyds'));
-      });
-
-      next();
-
-      // const keydsFromHeader = req.headers['keyds'];
-      // console.log('req.headers -> outside: ' + keydsFromHeader);
-
-      // registerProvider({
-      //   provide: Symbol.for("KEYDS"),
-      //   scope: ProviderScope.REQUEST,
-      //   // useAsyncFactory() {
-      //   //   console.log('req.headers -> inside a: ' + keydsFromHeader);
-      //   // },
-
-      //   // useFactory() {
-      //   //   console.log('req.headers -> inside b: ' + keydsFromHeader);
-      //   //   const knex = new MyKnex();
-      //   //   const conn = knex.getConnectionManager()
-      //   //                    .getConnectionByKeyDS(req.headers['keyds']);
-      // });
-    }
-    // next();
+    next();
   }
 }

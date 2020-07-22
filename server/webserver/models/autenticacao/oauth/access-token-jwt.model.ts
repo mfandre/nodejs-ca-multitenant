@@ -1,6 +1,28 @@
-import { Property } from "@tsed/common";
+import { Property } from '@tsed/common';
 
-export class AccessTokenJwtCriptoDTO {
+export class AccessTokenJwt {
+
+/* Exemplo
+  {
+    "tipo": "U",
+    "user_name": "admin",
+    "scope": [
+      "read",
+      "write"
+    ],
+    "statusCadastro": "C",
+    "trocarSenha": false,
+    "nome": "TheBoss Tenant1",
+    "id": 1,
+    "authorities": [
+      "ADM_EDICAO_CAMPOS"
+    ],
+    "jti": "",
+    "client_id": "hmap",
+    "exp": 1595435805114,
+    "iat": 1595435795
+  }
+*/
 
   @Property()
   tipo: string;

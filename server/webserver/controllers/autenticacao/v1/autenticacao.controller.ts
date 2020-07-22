@@ -6,11 +6,11 @@ import { UsuarioService } from './../../../services/autenticacao/usuario.service
 import { OAuthTokenResponseDTO } from './../../../models/autenticacao/oauth/oauth-token-response-dto.model';
 import { ErrorUtil } from './../../../../core/utils/error-util';
 import { CustomAuth } from '../../../../core/decorators/custom-auth';
-import { ChavePermissao } from '../../../../core/config/seguranca/chave-permissao.enum';
-import { Role } from '../../../../core/config/seguranca/role.enum';
+import { ChavePermissao } from '../../../models/autenticacao/perfil-permissao/chave-permissao.enum';
+import { Role } from './../../../models/autenticacao/perfil-permissao/role.enum';
 import { SecurityMiddleware } from './../../../middlewares/security-middleware';
 
-@Controller('/autenticacao')
+@Controller('/autenticacao/v1')
 export class AutenticacaoController {
 
   constructor(private usuarioService: UsuarioService) {}
@@ -40,12 +40,12 @@ export class AutenticacaoController {
       }
     }
     else {
-      throw (new BadRequest("grant_type não informado corretamente"));
+      throw (new BadRequest('grant_type não informado corretamente'));
     }
   }
 
   @Get('/teste-perm')
-  @UseAuth(SecurityMiddleware, {role: 'USUARIO', scopes: ['TESTE'] })
+  @CustomAuth( {role: Role.USUARIO, scopes: [ChavePermissao.TESTE] })
   testePerm( @Req() req: Request,
              @Res() res: Response,
              @Next() next: NextFunction) {
