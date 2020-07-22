@@ -1,5 +1,5 @@
 export enum ChavePermissao {
-
+  TESTE = 'TESTE',
   ADD_REL_CUSTOMIZADO = 'ADD_REL_CUSTOMIZADO',
   ADM_ACOES = 'ADM_ACOES',
   ADM_AGEND_GRUPO = 'ADM_AGEND_GRUPO',

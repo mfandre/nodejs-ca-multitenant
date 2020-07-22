@@ -12,15 +12,16 @@ import * as bodyParser from "body-parser";
 
 import { MyKnex } from './../db/sql/my-knex';
 import { TenantMiddleware } from "./middlewares/tenant-middleware";
+import { SecurityMiddleware } from './middlewares/security-middleware';
 
 export const rootDir = __dirname;
 
-const config = require('./../config');
+const config = require('./../core/config');
 
 const PORT = config.PORT || 3000;
 const ENV = config.NODE_ENV;
 
-console.log("EVN", ENV);
+console.log("environment", ENV);
 
 @Configuration({
   rootDir,
@@ -70,7 +71,7 @@ export class Server {
       }))
       .use(GlobalAcceptMimesMiddleware)
       .use(TenantMiddleware)
-      // .use(OAuthMiddleware)
+      .use(SecurityMiddleware)
       ;
   }
 

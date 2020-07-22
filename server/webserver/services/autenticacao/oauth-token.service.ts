@@ -6,7 +6,7 @@ import { OAuthTokenResponseDTO } from '../../models/autenticacao/oauth/oauth-tok
 import { Usuario } from './../../models/autenticacao/usuario/usuario.model';
 
 const jwt = require('jsonwebtoken');
-const config = require('./../../../config');
+const config = require('./../../../core/config');
 
 
 @Service()

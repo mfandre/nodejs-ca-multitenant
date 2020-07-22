@@ -1,4 +1,4 @@
-import { Property } from "@tsed/common";
+import { Property } from '@tsed/common';
 
 export class OAuthTokenResponseDTO {
 
