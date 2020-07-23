@@ -13,7 +13,7 @@ export class UsuarioService extends DefaultService<Usuario> {
 
   constructor(private oauthTokenService: OAuthTokenService,
               private usuarioRepositorio: UsuarioRepositorio) {
-    super();
+    super(usuarioRepositorio);
   }
 
   public login(res: Response,

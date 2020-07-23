@@ -25,5 +25,9 @@ module.exports = {
     HOST: process.env.TENANT_HOST || 'common_tenant',
     DATABASE: process.env.TENANT_DATABASE || 'common_tenant',
     PASSWORD: process.env.TENANT_PASSWORD || 'postgres'
+  },
+
+  database_options: {
+    LIMIT: 10
   }
 }

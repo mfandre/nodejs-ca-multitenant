@@ -8,8 +8,9 @@ import { Usuario } from './../../../../models/autenticacao/usuario/usuario.model
 export class UsuarioRepositorio extends DefaultRepository<Usuario> {
 
   public listarUsuarios = () => {
-    return this.getConn().raw(`SELECT * FROM [user];`)
-                         .then(data => data.rows);
+    return this.getConn().select('*')
+                         .from('pssoa')
+                         .limit(10);
   }
 
   public buscarUsuarioPor = (prop, val): Promise<Usuario[]> => {

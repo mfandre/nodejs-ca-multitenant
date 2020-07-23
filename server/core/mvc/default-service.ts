@@ -1,7 +1,14 @@
-import { Request } from "express";
+import { Request } from 'express';
+
+import { Reflection } from './../config/reflection-constants';
+import { BaseModel } from './base-model';
+import { DefaultRepository } from './default-repository';
+
 
 
 export class DefaultService<T> {
+
+  constructor(private repositorio: DefaultRepository<T>) {}
 
   private request: Request;
 
@@ -13,6 +20,35 @@ export class DefaultService<T> {
     this.request = request;
 
     return this;
+  }
+
+
+
+
+  /** *****************************
+   * ******************************
+   * MÉTODOS GERADOS COM REFLECTION
+   * @param clazz Nome da classe
+   * ******************************
+   ******************************** */
+  public listar<T extends BaseModel>(clazz): Promise<T> {
+    this.repositorio.setRequest(this.getRequest());
+
+    return this.repositorio.listar(clazz);
+  }
+
+
+  public buscarId = (clazz, id: number): Promise<T> => {
+    this.repositorio.setRequest(this.getRequest());
+
+    return this.repositorio.buscarId(clazz, id);
+  }
+
+
+  public buscarPor = (clazz, prop, val): Promise<T[]> => {
+    this.repositorio.setRequest(this.getRequest());
+
+    return this.repositorio.buscarPor(clazz, prop, val);
   }
 
 }
