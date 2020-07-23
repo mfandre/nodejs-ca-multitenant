@@ -78,7 +78,7 @@ export class DefaultRepository<T> {
    * @param clazz Nome da classe
    * ******************************
    ******************************** */
-  public listar<T extends BaseModel>(clazz): Promise<T> {
+  public _listar<T extends BaseModel>(clazz): Promise<T> {
     const table = Reflect.getMetadata(Reflection.tableMetaKey, clazz);
     // TODO: PAGINAR QUERY
 
@@ -87,7 +87,7 @@ export class DefaultRepository<T> {
                          .limit(config.database_options.LIMIT);
  }
 
-  public buscarId = (clazz, id: number): Promise<T> => {
+  public _buscarId = (clazz, id: number): Promise<T> => {
     const table = Reflect.getMetadata(Reflection.tableMetaKey, clazz);
 
     return this.getConn().select('*')
@@ -95,7 +95,7 @@ export class DefaultRepository<T> {
                          .where('id', '=', id);
   }
 
-  public buscarPor = (clazz, prop, val): Promise<T[]> => {
+  public _buscarPor = (clazz, prop, val): Promise<T[]> => {
     const table = Reflect.getMetadata(Reflection.tableMetaKey, clazz);
 
     return this.getConn().select('*')

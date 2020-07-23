@@ -94,7 +94,7 @@ export class AutenticacaoController {
 
 
   this.pssoav2Service.setRequest(req);
-  this.pssoav2Service.listar(PssoaV2)
+  this.pssoav2Service._listar(PssoaV2)
                      .then(data => {
                        res.send(data);
                      });
