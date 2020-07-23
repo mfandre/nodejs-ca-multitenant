@@ -1,4 +1,4 @@
-import { Property, Schema } from '@tsed/common';
+import { Property } from '@tsed/common';
 
 import { BaseModel } from './../../../../../core/mvc/base-model';
 import { Table } from '../../../../../core/decorators/table.decorator';

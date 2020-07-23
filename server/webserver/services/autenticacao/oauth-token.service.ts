@@ -84,6 +84,14 @@ export class OAuthTokenService {
     return null;
   }
 
+  public validarToken(token: string): AccessTokenJwt {
+    if ( !token ) {
+      return null;
+    }
+
+    return jwt.verify(token, config.oauthJwt.JWT_PW);
+  }
+
   public usuarioTemPermissao(accessToken: AccessTokenJwt, permissoesAValidar: ChavePermissao[]): boolean {
     if ( !permissoesAValidar ) {
       return true;

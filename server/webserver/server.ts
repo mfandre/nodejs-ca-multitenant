@@ -19,8 +19,23 @@ const config = require('./../core/config');
 
 const PORT = config.PORT || 3000;
 const ENV = config.NODE_ENV;
-
 console.log('environment', ENV);
+
+
+const whitelist = ['http://localhost:4200'];
+console.log('cors-whitelist', whitelist);
+
+const corsOptions = {
+  credentials: true,
+  origin(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Não permitido pelo CORS'));
+    }
+  }
+};
+
 
 @Configuration({
   rootDir,
@@ -60,7 +75,7 @@ export class Server {
 
   $beforeRoutesInit() {
     this.app
-      .use(cors())
+      .use(cors(corsOptions))
       .use(cookieParser())
       .use(compress({}))
       .use(methodOverride())

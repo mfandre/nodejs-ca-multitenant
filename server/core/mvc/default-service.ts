@@ -1,6 +1,5 @@
 import { Request } from 'express';
 
-import { Reflection } from './../config/reflection-constants';
 import { BaseModel } from './base-model';
 import { DefaultRepository } from './default-repository';
 
