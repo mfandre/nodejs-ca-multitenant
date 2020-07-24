@@ -1,8 +1,8 @@
-import { AccessTokenJwt } from './../models/autenticacao/oauth/access-token-jwt.model';
 import { EndpointInfo, IMiddleware, Middleware, Req } from '@tsed/common';
 import { Forbidden, Unauthorized } from '@tsed/exceptions';
 
-import { OAuthTokenService } from './../services/autenticacao/oauth-token.service';
+import { AccessTokenJwt } from './../../webserver/models/autenticacao/oauth/access-token-jwt.model';
+import { OAuthTokenService } from './../../webserver/services/autenticacao/oauth-token.service';
 
 // tslint:disable:typedef
 @Middleware()

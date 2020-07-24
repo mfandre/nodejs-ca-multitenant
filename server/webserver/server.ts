@@ -10,7 +10,7 @@ import '@tsed/ajv';
 import '@tsed/swagger';
 import * as bodyParser from 'body-parser';
 
-import { TenantMiddleware } from './middlewares/tenant-middleware';
+import { TenantMiddleware } from './../core/middlewares/tenant-middleware';
 import { ConnectionManager } from './../core/db/sql/connection-manager';
 
 export const rootDir = __dirname;

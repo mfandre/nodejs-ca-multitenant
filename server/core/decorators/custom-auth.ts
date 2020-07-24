@@ -2,7 +2,7 @@ import {IAuthOptions, UseAuth} from '@tsed/common';
 import {applyDecorators} from '@tsed/core';
 import {Operation, Responses, Security} from '@tsed/swagger';
 
-import { SecurityMiddleware } from '../../webserver/middlewares/security-middleware';
+import { SecurityMiddleware } from '../middlewares/security-middleware';
 import { ChavePermissao } from '../../webserver/models/autenticacao/perfil-permissao/chave-permissao.enum';
 import { Role } from './../../webserver/models/autenticacao/perfil-permissao/role.enum';
 

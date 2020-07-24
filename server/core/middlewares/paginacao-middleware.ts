@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 
-import { HttpUtil } from './../../core/utils/http-util';
+import { HttpUtil } from './../utils/http-util';
 
 
 export class PaginacaoMiddleware {
