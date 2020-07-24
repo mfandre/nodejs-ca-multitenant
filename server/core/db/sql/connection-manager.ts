@@ -92,6 +92,6 @@ export class ConnectionManager {
 
       return this.connectionMap[keyds];
     }
-  };
+  }
 
 }
