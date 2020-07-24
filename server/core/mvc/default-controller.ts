@@ -49,6 +49,16 @@ export class DefaultController<T> {
 
     });
 
+    // BUSCAR POR PROPRIEDADE
+    this.router.get('/:prop/:val', (req, res) => {
+      this.service.setRequest(req);
+      this.service._buscarPor(clazz, req.params.prop, req.params.val)
+                  .then(data => res.send(data))
+                  .catch(error => {
+                    ErrorUtil.sendHttpException(res, error);
+                  });
+    });
+
     // UPDATE
     this.router.put('/:id', (req, res) => {
       this.service.setRequest(req);
