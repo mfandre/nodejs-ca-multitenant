@@ -145,4 +145,26 @@ export class DefaultRepository<T> {
                .del();
   }
 
+
+  public _atualizar(clazz, id: number, updateObj: T): Promise<T[]> {
+    const table = Reflect.getMetadata(Reflection.tableMetaKey, clazz);
+    if ( !table ) {
+      console.error(this._tableNotFoundMsg);
+
+      return null;
+    }
+
+    const o = new clazz();
+    const idPropertie = Reflect.getMetadata(Reflection.idMetaKey, o) || 'id';
+
+    return this.getConn()
+               .from(table)
+               .where(idPropertie, '=', id)
+               .update(updateObj)
+               .returning('*');
+  }
+
+
+
+
 }

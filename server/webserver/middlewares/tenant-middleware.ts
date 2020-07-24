@@ -6,7 +6,7 @@ const url = require('url');
 @Middleware()
 export class TenantMiddleware implements IMiddleware {
 
-  use(@Req() req: Req, @Res() res: Res, @Next() next: Next) {
+  use(@Req() req: Req, @Res() res: Res, @Next() next: Next): void {
     const pathsPermitidosSemTenant = ['/',
                                       '/api-docs',
                                       '/api-docs/',

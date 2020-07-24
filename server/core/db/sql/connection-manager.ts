@@ -57,7 +57,6 @@ export class ConnectionManager {
     this.connectionMap = tenants
         .map(tenant => {
           const typedKnex: Knex = Knex(this.createConnectionConfig(tenant));
-          console.log(typeof typedKnex);
 
           return {
             [tenant.keyds]: typedKnex

@@ -21,33 +21,55 @@ export class DefaultController<T> {
     this.router.post('/', (req, res) => {
       this.service.setRequest(req);
       // TODO: implementar
+      // let addUser = (tenant, userInfo) => {
+      //   let conn = knex.getConnectionByKeyDS(tenant);
+
+      //   if(conn === undefined)
+      //     return null;
+
+      //   let user = makeUser(userInfo)
+      //   let newUser = {
+      //     name: user.getName(),
+      //     email: user.getEmail(),
+      //     password: user.getPassword()
+      //   }
+      //   return conn('user')
+      //     .insert(newUser)
+      //     .returning('*')
+      // }
+
     });
 
     // LISTAR TODOS
     this.router.get('/', (req, res) => {
       this.service.setRequest(req);
       this.service._listar(clazz)
-             .then(data => res.send(data))
-             .catch(error => {
-              ErrorUtil.sendHttpException(res, error);
-             });
+                  .then(data => res.send(data))
+                  .catch(error => {
+                    ErrorUtil.sendHttpException(res, error);
+                  });
     });
 
     // BUSCAR POR ID
     this.router.get('/:id', (req, res) => {
       this.service.setRequest(req);
       this.service._buscarId(clazz, +req.params.id)
-             .then(data => res.send(data))
-             .catch(error => {
-              ErrorUtil.sendHttpException(res, error);
-             });
+                  .then(data => res.send(data))
+                  .catch(error => {
+                    ErrorUtil.sendHttpException(res, error);
+                  });
 
     });
 
     // UPDATE
     this.router.put('/:id', (req, res) => {
       this.service.setRequest(req);
-      // TODO: implementar
+      this.service._atualizar(clazz, +req.params.id, req.body)
+                  .then(data => res.send(data))
+                  .catch(error => {
+                    ErrorUtil.sendHttpException(res, error);
+                  });
+
     });
 
     // DELETE
