@@ -1,23 +1,31 @@
+import * as Knex from 'knex';
 
-import { KnexManager } from './knex-manager';
-
-const knex = require('knex');
-
-const config = require('./../../core/config');
+const config = require('./../../config');
 
 const environment = config.NODE_ENV || 'development';
-const knexConfig = require('../../knexfile')[environment];
-const commonDBConnection = knex(knexConfig);
+const knexConfig = require('./../../../knexfile')[environment];
+const commonDBConnection = Knex(knexConfig);
 
 export class ConnectionManager {
 
+  private static instance: ConnectionManager = null;
 
-  private connectionMap = new Map<string, any>();
+  public static getInstance(): ConnectionManager {
+    if ( this.instance ) {
+      return this.instance;
+    }
+
+    return this.instance = new ConnectionManager();
+  }
+
+
+
+  private connectionMap = new Map<string, Knex>();
 
   constructor() {
     console.log('construindo connection-manager...');
 
-    this.connectionMap = new Map<string, any>();
+    this.connectionMap = new Map<string, Knex>();
 
     this.connectAllDb().then(() => {
       let dbs = '';
@@ -48,7 +56,7 @@ export class ConnectionManager {
 
     this.connectionMap = tenants
         .map(tenant => {
-          const typedKnex = knex(this.createConnectionConfig(tenant));
+          const typedKnex: Knex = Knex(this.createConnectionConfig(tenant));
           console.log(typeof typedKnex);
 
           return {
@@ -77,7 +85,7 @@ export class ConnectionManager {
     };
   };
 
-  public getConnectionByKeyDS = (keyds): any => {
+  public getConnectionByKeyDS(keyds): Knex {
 
     if ( this.connectionMap ) {
       console.log('keyds=>', keyds);

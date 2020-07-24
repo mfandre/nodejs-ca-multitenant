@@ -48,8 +48,17 @@ export class DefaultService<T> {
   }
 
   public _inserir(clazz, o: T): T {
+    // TODO: implementar
+    console.error('nâo implementado.');
 
     return null;
   }
+
+  public _deletar(clazz, id: number): Promise<number> {
+    this.repositorio.setRequest(this.getRequest());
+
+    return this.repositorio._deletar(clazz, id);
+  }
+
 
 }

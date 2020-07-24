@@ -1,16 +1,17 @@
 import { Request } from 'express';
+import * as Knex from 'knex';
 import 'reflect-metadata';
 
+import { ConnectionManager } from './../../core/db/sql/connection-manager';
 import { BaseModel } from './base-model';
 import { Reflection } from './../config/reflection-constants';
-import { KnexManager } from './../../db/sql/knex-manager';
 
 const config = require('./../../core/config');
 
 
 export class DefaultRepository<T> {
 
-  private conn: any;
+  private conn: Knex;
   private request: Request;
   private url: string;
 
@@ -21,7 +22,7 @@ export class DefaultRepository<T> {
     return this;
   }
 
-  public getConn(): any {
+  public getConn(): Knex {
       if ( !this.request ) {
         const msg = 'Verifique se o objeto Request foi definido na camada do controller, serviço ou repositório.';
         console.error(msg);
@@ -36,8 +37,8 @@ export class DefaultRepository<T> {
         throw (new Error(msg));
       }
 
-      this.conn = KnexManager.getConnectionManager()
-                             .getConnectionByKeyDS(keyds);
+      this.conn = ConnectionManager.getInstance()
+                                   .getConnectionByKeyDS(keyds);
 
       // nova tentativa de conexão
       if ( !this.conn ) {
@@ -87,7 +88,7 @@ export class DefaultRepository<T> {
     }
 
     // TODO: PAGINAR QUERY
-    return this.getConn().select('*')
+    return this.getConn().select<T>('*')
                          .from(table)
                          .limit(config.database_options.LIMIT);
  }
@@ -102,9 +103,10 @@ export class DefaultRepository<T> {
     const o = new clazz();
     const idPropertie = Reflect.getMetadata(Reflection.idMetaKey, o) || 'id';
 
-    return this.getConn().select('*')
+    return this.getConn().select<T>('*')
                          .from(table)
-                         .where(idPropertie, '=', id);
+                         .where(idPropertie, '=', id)
+                         .first();
   }
 
   public _buscarPor(clazz, prop, val): Promise<T[]> {
@@ -126,7 +128,7 @@ export class DefaultRepository<T> {
   }
 
 
-  public _deletar(clazz, id: number): Promise<any> {
+  public _deletar(clazz, id: number): Promise<number> {
     const table = Reflect.getMetadata(Reflection.tableMetaKey, clazz);
     if ( !table ) {
       console.error(this._tableNotFoundMsg);

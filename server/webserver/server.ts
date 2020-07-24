@@ -10,8 +10,8 @@ import '@tsed/ajv';
 import '@tsed/swagger';
 import * as bodyParser from 'body-parser';
 
-import { KnexManager } from './../db/sql/knex-manager';
 import { TenantMiddleware } from './middlewares/tenant-middleware';
+import { ConnectionManager } from './../core/db/sql/connection-manager';
 
 export const rootDir = __dirname;
 
@@ -28,7 +28,7 @@ const whitelist = ['http://localhost:4200'];
 console.log('cors-whitelist', whitelist);
 const corsOptions = {
   credentials: true,
-  origin(origin, callback) {
+  origin(origin, callback): void {
     if ( ENV === 'development' ||  whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -74,7 +74,7 @@ export class Server {
   @Configuration()
   settings: Configuration;
 
-  $beforeRoutesInit() {
+  $beforeRoutesInit(): void {
     this.app
       .use(cors(corsOptions))
       .use(cookieParser())
@@ -88,9 +88,9 @@ export class Server {
       .use(TenantMiddleware);
   }
 
-  $afterRoutesInit() {
+  $afterRoutesInit(): void {
     this.app.use(GlobalErrorHandlerMiddleware);
-    KnexManager.getConnectionManager();
+    ConnectionManager.getInstance();
     console.log('API pronta.');
   }
 }

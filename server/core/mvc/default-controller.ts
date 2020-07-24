@@ -53,7 +53,11 @@ export class DefaultController<T> {
     // DELETE
     this.router.delete('/:id', (req, res) => {
       this.service.setRequest(req);
-      // TODO: implementar
+      this.service._deletar(clazz, +req.params.id)
+                  .then(data => res.send(`${data} registro(s) removido(s)`))
+                  .catch(error => {
+                    ErrorUtil.sendHttpException(res, error);
+                  });
     });
 
 
