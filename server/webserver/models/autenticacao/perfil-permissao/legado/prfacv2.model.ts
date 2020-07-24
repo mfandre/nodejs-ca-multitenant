@@ -1,8 +1,8 @@
 import { Property } from '@tsed/common';
 
-import { Table } from '../../../../../core/decorators/table.decorator';
+import { table } from '../../../../../core/decorators/entity.decorator';
 
-@Table('prfac')
+@table('prfac')
 export class PrfacV2 {
 
   @Property()

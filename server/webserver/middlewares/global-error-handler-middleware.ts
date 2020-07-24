@@ -5,7 +5,7 @@ import {Exception} from '@tsed/exceptions';
 
 const toHTML = (message = '') => message.replace(/\n/gi, '<br />');
 
-function getErrors(error: any) {
+function getErrors(error: any): any {
   return [error, error.origin]
     .filter(Boolean)
     .reduce((errs, {errors}: IResponseError) => {
@@ -16,7 +16,7 @@ function getErrors(error: any) {
     }, []);
 }
 
-function getHeaders(error: any) {
+function getHeaders(error: any): any {
   return [error, error.origin]
     .filter(Boolean)
     .reduce((obj, {headers}: IResponseError) => {
@@ -50,7 +50,7 @@ export class GlobalErrorHandlerMiddleware implements IMiddleware {
     return;
   }
 
-  protected handleError(error: any, request: Req, response: Res) {
+  protected handleError(error: any, request: Req, response: Res): void {
     const logger = request.ctx.logger;
     const err = this.mapError(error);
 
@@ -63,7 +63,7 @@ export class GlobalErrorHandlerMiddleware implements IMiddleware {
       .status(err.status).json(this.env === Env.PROD ? 'InternalServerError' : err);
   }
 
-  protected handleException(error: any, request: Req, response: Res) {
+  protected handleException(error: any, request: Req, response: Res): void {
     const logger = request.ctx.logger;
     const err = this.mapError(error);
     logger.error({
@@ -76,7 +76,7 @@ export class GlobalErrorHandlerMiddleware implements IMiddleware {
       .json(err);
   }
 
-  protected mapError(error: any) {
+  protected mapError(error: any): any {
     return {
       message: error.message,
       stack: this.env === Env.DEV ? error.stack : undefined,

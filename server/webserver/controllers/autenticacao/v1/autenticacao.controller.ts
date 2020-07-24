@@ -11,6 +11,7 @@ import { OAuthTokenService } from './../../../services/autenticacao/oauth-token.
 import { AccessTokenJwt } from './../../../../webserver/models/autenticacao/oauth/access-token-jwt.model';
 import { Usuario } from './../../../../webserver/models/autenticacao/usuario/usuario.model';
 
+// tslint:disable:typedef
 @Controller(`/autenticacao/v1`)
 export class AutenticacaoController {
 

@@ -1,10 +1,13 @@
-import { Table } from './../../../core/decorators/table.decorator';
+import { table, id, column } from './../../../core/decorators/entity.decorator';
 
 
-@Table('teste')
+@table('teste')
 export class Teste {
 
   id: number;
+
+  @id('cd_teste')
+  cdTeste: number;
 
   nome: string;
 

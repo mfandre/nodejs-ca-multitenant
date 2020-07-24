@@ -10,7 +10,7 @@ import '@tsed/ajv';
 import '@tsed/swagger';
 import * as bodyParser from 'body-parser';
 
-import { Knex } from '../db/sql/knex';
+import { KnexManager } from './../db/sql/knex-manager';
 import { TenantMiddleware } from './middlewares/tenant-middleware';
 
 export const rootDir = __dirname;
@@ -90,7 +90,7 @@ export class Server {
 
   $afterRoutesInit() {
     this.app.use(GlobalErrorHandlerMiddleware);
-    Knex.getConnectionManager();
+    KnexManager.getConnectionManager();
     console.log('API pronta.');
   }
 }

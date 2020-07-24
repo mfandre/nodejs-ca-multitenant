@@ -1,6 +1,6 @@
 import { ConnectionManager } from './connection-manager';
 
-export class Knex {
+export class KnexManager {
 
   private static connectionManager: ConnectionManager;
 

@@ -1,3 +1,6 @@
+
+import { KnexManager } from './knex-manager';
+
 const knex = require('knex');
 
 const config = require('./../../core/config');
@@ -31,7 +34,7 @@ export class ConnectionManager {
   }
 
 
-  private async connectAllDb() {
+  private async connectAllDb(): Promise<any> {
     let tenants;
 
     try {
@@ -46,6 +49,7 @@ export class ConnectionManager {
     this.connectionMap = tenants
         .map(tenant => {
           const typedKnex = knex(this.createConnectionConfig(tenant));
+          console.log(typeof typedKnex);
 
           return {
             [tenant.keyds]: typedKnex

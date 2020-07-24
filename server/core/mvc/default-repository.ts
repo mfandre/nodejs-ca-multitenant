@@ -1,9 +1,9 @@
 import { Request } from 'express';
 import 'reflect-metadata';
 
-import { Knex } from '../../db/sql/knex';
 import { BaseModel } from './base-model';
 import { Reflection } from './../config/reflection-constants';
+import { KnexManager } from './../../db/sql/knex-manager';
 
 const config = require('./../../core/config');
 
@@ -36,16 +36,16 @@ export class DefaultRepository<T> {
         throw (new Error(msg));
       }
 
-      this.conn = Knex.getConnectionManager()
-                      .getConnectionByKeyDS(keyds);
+      this.conn = KnexManager.getConnectionManager()
+                             .getConnectionByKeyDS(keyds);
 
       // nova tentativa de conexão
       if ( !this.conn ) {
-        // Knex.getConnectionManager()
-        //       .connectAllDb();
+        // KnexManager.getConnectionManager()
+        //            .connectAllDb();
 
-        // this.conn = Knex.getConnectionManager()
-        //                 .getConnectionByKeyDS(keyds);
+        // this.conn = KKnexManagernex.getConnectionManager()
+        //                            .getConnectionByKeyDS(keyds);
 
         if ( !this.conn ) {
           console.error('Conexão não estabelecida para o tenant ' + keyds);
@@ -60,7 +60,7 @@ export class DefaultRepository<T> {
     return this.request;
   }
 
-  public setRequest(request: Request) {
+  public setRequest(request: Request): any {
     this.request = request;
 
     return this;
@@ -76,7 +76,7 @@ export class DefaultRepository<T> {
    * @param clazz Nome da classe
    * ******************************
    ******************************** */
-  private _tableNotFoundMsg = 'Verifique se utilizou o decorator @Table() no model.';
+  private _tableNotFoundMsg = 'Verifique se utilizou o decorator @table() no model.';
 
   public _listar<T extends BaseModel>(clazz): Promise<T> {
     const table = Reflect.getMetadata(Reflection.tableMetaKey, clazz);
@@ -92,20 +92,22 @@ export class DefaultRepository<T> {
                          .limit(config.database_options.LIMIT);
  }
 
-  public _buscarId = (clazz, id: number): Promise<T> => {
+  public _buscarId(clazz, id: number): Promise<T> {
     const table = Reflect.getMetadata(Reflection.tableMetaKey, clazz);
     if ( !table ) {
       console.error(this._tableNotFoundMsg);
 
       return null;
     }
+    const o = new clazz();
+    const idPropertie = Reflect.getMetadata(Reflection.idMetaKey, o) || 'id';
 
     return this.getConn().select('*')
                          .from(table)
-                         .where('id', '=', id);
+                         .where(idPropertie, '=', id);
   }
 
-  public _buscarPor = (clazz, prop, val): Promise<T[]> => {
+  public _buscarPor(clazz, prop, val): Promise<T[]> {
     const table = Reflect.getMetadata(Reflection.tableMetaKey, clazz);
     if ( !table ) {
       console.error(this._tableNotFoundMsg);
@@ -116,6 +118,29 @@ export class DefaultRepository<T> {
     return this.getConn().select('*')
                          .from(table)
                          .where(prop, '=', val);
+  }
+
+  public _inserir(clazz, o: T): T {
+
+    return null;
+  }
+
+
+  public _deletar(clazz, id: number): Promise<any> {
+    const table = Reflect.getMetadata(Reflection.tableMetaKey, clazz);
+    if ( !table ) {
+      console.error(this._tableNotFoundMsg);
+
+      return null;
+    }
+
+    const o = new clazz();
+    const idPropertie = Reflect.getMetadata(Reflection.idMetaKey, o) || 'id';
+
+    return this.getConn()
+               .from(table)
+               .where(idPropertie, '=', id)
+               .del();
   }
 
 }

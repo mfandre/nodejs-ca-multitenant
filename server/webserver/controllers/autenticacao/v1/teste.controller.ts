@@ -9,7 +9,7 @@ import { DefaultController } from './../../../../core/mvc/default-controller';
 import { Teste } from './../../../models/autenticacao/teste.model';
 import { PssoaV2 } from 'webserver/models/autenticacao/usuario/legado/pssoa-v2.model';
 
-
+// tslint:disable:typedef
 @Controller(`/teste/v1`)
 export class AutenticacaoController extends DefaultController<Teste> {
 

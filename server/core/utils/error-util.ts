@@ -4,7 +4,7 @@ import { Exception } from '@tsed/exceptions';
 
 export class ErrorUtil {
 
-  public static sendHttpException(res: Response, error: Exception) {
+  public static sendHttpException(res: Response, error: Exception): void {
     console.error(error);
     const err = this.mapError(error);
 
@@ -24,7 +24,7 @@ export class ErrorUtil {
     res.send();
   }
 
-  private static getHeaders(error: any) {
+  private static getHeaders(error: any): any {
     return [error, error.origin]
     .filter(Boolean)
     .reduce((obj, {headers}: IResponseError) => {
@@ -35,7 +35,7 @@ export class ErrorUtil {
     }, {});
   }
 
-  private static mapError(error: any) {
+  private static mapError(error: any): any {
     return {
       message: error.message,
       stack: undefined,
@@ -48,7 +48,7 @@ export class ErrorUtil {
     };
   }
 
-  private static getErrors(error: any) {
+  private static getErrors(error: any): any {
     return [error, error.origin]
       .filter(Boolean)
       .reduce((errs, {errors}: IResponseError) => {

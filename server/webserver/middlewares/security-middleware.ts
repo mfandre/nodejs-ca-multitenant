@@ -4,6 +4,7 @@ import { Forbidden, Unauthorized } from '@tsed/exceptions';
 
 import { OAuthTokenService } from './../services/autenticacao/oauth-token.service';
 
+// tslint:disable:typedef
 @Middleware()
 export class SecurityMiddleware implements IMiddleware {
 

@@ -15,10 +15,11 @@ export class DefaultController<T> {
       this.criarRotasCRUD(clazz);
     }
 
-  public criarRotasCRUD<M extends BaseModel>(clazz: M) {
+  public criarRotasCRUD<M extends BaseModel>(clazz: M): void {
 
     // INSERT
     this.router.post('/', (req, res) => {
+      this.service.setRequest(req);
       // TODO: implementar
     });
 
@@ -34,6 +35,7 @@ export class DefaultController<T> {
 
     // BUSCAR POR ID
     this.router.get('/:id', (req, res) => {
+      this.service.setRequest(req);
       this.service._buscarId(clazz, +req.params.id)
              .then(data => res.send(data))
              .catch(error => {
@@ -44,11 +46,13 @@ export class DefaultController<T> {
 
     // UPDATE
     this.router.put('/:id', (req, res) => {
+      this.service.setRequest(req);
       // TODO: implementar
     });
 
     // DELETE
     this.router.delete('/:id', (req, res) => {
+      this.service.setRequest(req);
       // TODO: implementar
     });
 

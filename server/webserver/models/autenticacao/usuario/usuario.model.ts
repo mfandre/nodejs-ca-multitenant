@@ -1,13 +1,13 @@
 import '@tsed/ajv';
 import { Property } from '@tsed/common';
 
-import { Table } from './../../../../core/decorators/table.decorator';
+import { table, id } from './../../../../core/decorators/entity.decorator';
 
 
-@Table('pssoa')
+@table('pssoa')
 export class Usuario {
 
-  @Property()
+  @id()
   id: number;
 
   @Property()

@@ -1,12 +1,12 @@
 import { Property } from '@tsed/common';
 
 import { BaseModel } from './../../../../../core/mvc/base-model';
-import { Table } from '../../../../../core/decorators/table.decorator';
+import { table, id } from '../../../../../core/decorators/entity.decorator';
 
-@Table('pssoa')
+@table('pssoa')
 export class PssoaV2 extends BaseModel {
 
-  @Property()
+  @id('cd_pssoa')
   cdPssoa: string;
 
   @Property()

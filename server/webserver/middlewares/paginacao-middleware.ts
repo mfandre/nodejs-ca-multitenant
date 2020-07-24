@@ -5,7 +5,7 @@ import { HttpUtil } from './../../core/utils/http-util';
 
 export class PaginacaoMiddleware {
 
-  paginar(req: Request, res: Response, next: any) {
+  paginar(req: Request, res: Response, next: any): void {
     let body: string;
     try {
       body = JSON.stringify(HttpUtil.paginarResponse(req.body, req));
@@ -13,7 +13,7 @@ export class PaginacaoMiddleware {
     catch (err) {
       res.send(err.toString());
 
-      return false;
+      return;
     }
     res.send(body);
     next();
