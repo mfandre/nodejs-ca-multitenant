@@ -21,14 +21,15 @@ const PORT = config.PORT || 3000;
 const ENV = config.NODE_ENV;
 console.log('environment', ENV);
 
-
+/**
+ * CORS config
+ */
 const whitelist = ['http://localhost:4200'];
 console.log('cors-whitelist', whitelist);
-
 const corsOptions = {
   credentials: true,
   origin(origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    if ( ENV === 'development' ||  whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error('Não permitido pelo CORS'));
@@ -90,5 +91,6 @@ export class Server {
   $afterRoutesInit() {
     this.app.use(GlobalErrorHandlerMiddleware);
     Knex.getConnectionManager();
+    console.log('Ready to go... ');
   }
 }

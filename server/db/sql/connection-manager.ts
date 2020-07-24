@@ -31,14 +31,14 @@ export class ConnectionManager {
   }
 
 
-  connectAllDb = async () => {
+  private async connectAllDb() {
     let tenants;
 
     try {
       tenants = await commonDBConnection.select('*').from('tenant');
     }
     catch (e) {
-      console.log('error', e);
+      console.error('error', e);
 
       return;
     }

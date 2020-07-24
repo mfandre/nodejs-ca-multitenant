@@ -51,6 +51,7 @@ export class DefaultRepository<T> {
         //                 .getConnectionByKeyDS(keyds);
 
         if ( !this.conn ) {
+          console.error('Conexão não estabelecida para o tenant ' + keyds);
           throw (new Error('Conexão não estabelecida para o tenant ' + keyds));
         }
       }
