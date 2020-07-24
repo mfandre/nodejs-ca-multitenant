@@ -12,7 +12,7 @@ export class ConnectionManager {
   private connectionMap = new Map<string, any>();
 
   constructor() {
-    console.log('construindo novo connection-manager...');
+    console.log('construindo connection-manager...');
 
     this.connectionMap = new Map<string, any>();
 

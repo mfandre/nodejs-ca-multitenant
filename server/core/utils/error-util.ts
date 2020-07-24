@@ -8,9 +8,17 @@ export class ErrorUtil {
     console.error(error);
     const err = this.mapError(error);
 
+    let errorHeaders = null;
+    try {
+      errorHeaders = ErrorUtil.getHeaders(error);
+    }
+    catch (e) {
+      errorHeaders = null;
+    }
+
     res
-      .set(ErrorUtil.getHeaders(error))
-      .status(error.status)
+      .set(errorHeaders)
+      .status(error.status || 500)
       .json(err);
 
     res.send();
@@ -18,13 +26,13 @@ export class ErrorUtil {
 
   private static getHeaders(error: any) {
     return [error, error.origin]
-      .filter(Boolean)
-      .reduce((obj, {headers}: IResponseError) => {
-        return {
-          ...obj,
-          ...headers || {}
-        };
-      }, {});
+    .filter(Boolean)
+    .reduce((obj, {headers}: IResponseError) => {
+      return {
+        ...obj,
+        ...headers || {}
+      };
+    }, {});
   }
 
   private static mapError(error: any) {

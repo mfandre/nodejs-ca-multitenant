@@ -4,6 +4,7 @@ import { PssoaV2Repositorio } from '../../../repositories/autenticacao/usuario/s
 import { DefaultService } from '../../../../core/mvc/default-service';
 import { PssoaV2 } from '../../../models/autenticacao/usuario/legado/pssoa-v2.model';
 
+
 @Service()
 export class PssoaV2Service extends DefaultService<PssoaV2> {
 

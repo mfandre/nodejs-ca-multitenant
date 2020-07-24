@@ -91,6 +91,6 @@ export class Server {
   $afterRoutesInit() {
     this.app.use(GlobalErrorHandlerMiddleware);
     Knex.getConnectionManager();
-    console.log('Ready to go... ');
+    console.log('API pronta.');
   }
 }

@@ -15,9 +15,6 @@ export class DefaultRepository<T> {
   private url: string;
 
 
-
-
-
   public setUrl(url: string): DefaultRepository<T> {
     this.url = url;
 
@@ -79,10 +76,17 @@ export class DefaultRepository<T> {
    * @param clazz Nome da classe
    * ******************************
    ******************************** */
+  private _tableNotFoundMsg = 'Verifique se utilizou o decorator @Table() no model.';
+
   public _listar<T extends BaseModel>(clazz): Promise<T> {
     const table = Reflect.getMetadata(Reflection.tableMetaKey, clazz);
-    // TODO: PAGINAR QUERY
+    if ( !table ) {
+      console.error(this._tableNotFoundMsg);
 
+      return null;
+    }
+
+    // TODO: PAGINAR QUERY
     return this.getConn().select('*')
                          .from(table)
                          .limit(config.database_options.LIMIT);
@@ -90,6 +94,11 @@ export class DefaultRepository<T> {
 
   public _buscarId = (clazz, id: number): Promise<T> => {
     const table = Reflect.getMetadata(Reflection.tableMetaKey, clazz);
+    if ( !table ) {
+      console.error(this._tableNotFoundMsg);
+
+      return null;
+    }
 
     return this.getConn().select('*')
                          .from(table)
@@ -98,6 +107,11 @@ export class DefaultRepository<T> {
 
   public _buscarPor = (clazz, prop, val): Promise<T[]> => {
     const table = Reflect.getMetadata(Reflection.tableMetaKey, clazz);
+    if ( !table ) {
+      console.error(this._tableNotFoundMsg);
+
+      return null;
+    }
 
     return this.getConn().select('*')
                          .from(table)

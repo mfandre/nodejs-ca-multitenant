@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import {Controller, Post, BodyParams, ReturnType, Req, Res, Next, Get } from '@tsed/common';
+import { Controller, Post, BodyParams, ReturnType, Req, Res, Next, PlatformRouter } from '@tsed/common';
 import { BadRequest } from '@tsed/exceptions';
 import { Unauthorized } from '@tsed/exceptions';
 
 import { PssoaV2Service } from './../../../services/autenticacao/legado/pssoa-v2.service';
-import { PssoaV2 } from './../../../models/autenticacao/usuario/legado/pssoa-v2.model';
 import { UsuarioService } from './../../../services/autenticacao/usuario.service';
 import { OAuthTokenResponseDTO } from './../../../models/autenticacao/oauth/oauth-token-response-dto.model';
 import { ErrorUtil } from './../../../../core/utils/error-util';
@@ -12,11 +11,11 @@ import { OAuthTokenService } from './../../../services/autenticacao/oauth-token.
 import { AccessTokenJwt } from './../../../../webserver/models/autenticacao/oauth/access-token-jwt.model';
 import { Usuario } from './../../../../webserver/models/autenticacao/usuario/usuario.model';
 
-@Controller('/autenticacao/v1')
+@Controller(`/autenticacao/v1`)
 export class AutenticacaoController {
 
-  constructor(private usuarioService: UsuarioService,
-              private pssoav2Service: PssoaV2Service,
+  constructor(router: PlatformRouter,
+              private usuarioService: UsuarioService,
               private oauthTokenService: OAuthTokenService) {}
 
   @Post('/oauth/token')
@@ -62,42 +61,6 @@ export class AutenticacaoController {
     else {
       throw (new BadRequest('grant_type não informado corretamente'));
     }
-  }
-
-
-
-
-
-  /** *******************************************************
-   * ********************************************************
-   * MÉTODOS DE TESTE
-   * TODO remover após fase de desenvolvimento da arquitetura
-   * ********************************************************
-   * ********************************************************
-   */
-
-
-  @Get('/teste-perm')
-  // @CustomAuth( { scopes: [ChavePermissao.TESTE] })
-  testePerm( @Req() req: Request,
-             @Res() res: Response,
-             @Next() next: NextFunction) {
-
-    res.send('Parabéns, você está autorizado!');
-  }
-
-
-  @Get('/teste-reflection')
-  testeReflection( @Req() req: Request,
-                   @Res() res: Response,
-                   @Next() next: NextFunction) {
-
-
-  this.pssoav2Service.setRequest(req);
-  this.pssoav2Service._listar(PssoaV2)
-                     .then(data => {
-                       res.send(data);
-                     });
   }
 
 }
