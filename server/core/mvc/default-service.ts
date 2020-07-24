@@ -48,11 +48,18 @@ export class DefaultService<T> {
     return this.repositorio._buscarPor(clazz, prop, val);
   }
 
-  public _inserir(clazz, o: T): T {
-    // TODO: implementar
-    console.error('nâo implementado.');
+  public _inserir(clazz, requestData: T): Promise<T[]> {
+    this.repositorio.setRequest(this.getRequest());
 
-    return null;
+    // monta objeto com valores da request
+    const insertObj: typeof clazz = {};
+    const propKeys = Object.keys(requestData);
+    for ( const propKey of propKeys ) {
+      insertObj[propKey] = requestData[propKey];
+    }
+
+    // salvar e retornar dados
+    return this.repositorio._inserir(clazz, insertObj);
   }
 
   public _deletar(clazz, id: number): Promise<number> {
@@ -76,12 +83,10 @@ export class DefaultService<T> {
                   }
 
                   // monta objeto com valores da request
-                  const updateData = requestData;
                   const updateObj: typeof clazz = {};
-
-                  const propKeys = Object.keys(updateData);
+                  const propKeys = Object.keys(requestData);
                   for ( const propKey of propKeys ) {
-                    updateObj[propKey] = updateData[propKey];
+                    updateObj[propKey] = requestData[propKey];
                   }
 
                   // salvar e retornar dados

@@ -109,7 +109,7 @@ export class DefaultRepository<T> {
                          .first();
   }
 
-  public _buscarPor(clazz, prop, val): Promise<T[]> {
+  public _buscarPor(clazz, prop, val): Promise<any> {
     const table = Reflect.getMetadata(Reflection.tableMetaKey, clazz);
     if ( !table ) {
       console.error(this._tableNotFoundMsg);
@@ -122,9 +122,17 @@ export class DefaultRepository<T> {
                          .where(prop, '=', val);
   }
 
-  public _inserir(clazz, o: T): T {
+  public _inserir(clazz, insertObj: T): Promise<T[]> {
+    const table = Reflect.getMetadata(Reflection.tableMetaKey, clazz);
+    if ( !table ) {
+      console.error(this._tableNotFoundMsg);
 
-    return null;
+      return null;
+    }
+
+    return this.getConn()(table)
+               .insert(insertObj)
+               .returning('*');
   }
 
 

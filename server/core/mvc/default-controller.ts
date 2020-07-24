@@ -20,23 +20,11 @@ export class DefaultController<T> {
     // INSERT
     this.router.post('/', (req, res) => {
       this.service.setRequest(req);
-      // TODO: implementar
-      // let addUser = (tenant, userInfo) => {
-      //   let conn = knex.getConnectionByKeyDS(tenant);
-
-      //   if(conn === undefined)
-      //     return null;
-
-      //   let user = makeUser(userInfo)
-      //   let newUser = {
-      //     name: user.getName(),
-      //     email: user.getEmail(),
-      //     password: user.getPassword()
-      //   }
-      //   return conn('user')
-      //     .insert(newUser)
-      //     .returning('*')
-      // }
+      this.service._inserir(clazz, req.body)
+                  .then(data => res.send(data))
+                  .catch(error => {
+                    ErrorUtil.sendHttpException(res, error);
+                  });
 
     });
 
