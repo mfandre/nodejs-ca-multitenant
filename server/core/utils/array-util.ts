@@ -1,6 +1,6 @@
 export class ArrayUtil {
 
-  removerDuplicadosENulos(arr: Array<any>) {
+  removerDuplicadosENulos(arr: Array<any>): any {
 
     if ( arr ) {
       for ( let i = 0; i < arr.length; i++ ) {

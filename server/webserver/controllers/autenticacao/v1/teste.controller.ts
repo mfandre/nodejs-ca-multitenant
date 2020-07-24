@@ -21,10 +21,7 @@ export class AutenticacaoController extends DefaultController<Teste> {
 
   @Get('/teste-perm')
   // @CustomAuth( { scopes: [ChavePermissao.TESTE] })
-  testePerm( @Req() req: Request,
-             @Res() res: Response,
-             @Next() next: NextFunction) {
-
+  testePerm( @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     res.send('Parabéns, você está autorizado!');
   }
 }

@@ -21,10 +21,7 @@ export class AutenticacaoController {
 
   @Post('/oauth/token')
   @ReturnType({type: OAuthTokenResponseDTO})
-  oauthToken( @Req() req: Request,
-              @Res() res: Response,
-              @Next() next: NextFunction,
-              @BodyParams() params: {username, password, grant_type }) {
+  oauthToken( @Req() req: Request, @Res() res: Response, @Next() next: NextFunction, @BodyParams() params: {username, password, grant_type }) {
 
     if ( params.grant_type === 'password' ) {
       this.usuarioService.setRequest(req);

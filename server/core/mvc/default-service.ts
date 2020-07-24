@@ -1,10 +1,7 @@
 import { Request } from 'express';
 import { NotFound } from '@tsed/exceptions';
 
-import { TesteService } from './../../webserver/services/autenticacao/teste.service';
 import { DefaultRepository } from './default-repository';
-import { BaseModel } from './base-model';
-
 
 
 export class DefaultService<T> {
