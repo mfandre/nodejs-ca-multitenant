@@ -5,6 +5,7 @@ const config = require('./../../config');
 const environment = config.NODE_ENV || 'development';
 const knexConfig = require('./../../../knexfile')[environment];
 const commonDBConnection = Knex(knexConfig);
+const logger = require('winston');
 
 export class ConnectionManager {
 
@@ -23,7 +24,7 @@ export class ConnectionManager {
   private connectionMap = new Map<string, Knex>();
 
   constructor() {
-    console.log('construindo connection-manager...');
+    logger.info('construindo connection-manager...');
 
     this.connectionMap = new Map<string, Knex>();
 
@@ -33,11 +34,11 @@ export class ConnectionManager {
         if ( dbs ) { dbs += ', '; }
         dbs += i;
       }
-      console.log('connection-map => ' + dbs);
+      logger.info('connection-map => ' + dbs);
     })
     .catch(error => {
-      console.log('Não foi possível se conectar ao common tenant database');
-      console.log(error);
+      logger.error('Não foi possível se conectar ao common tenant database');
+      logger.error(error);
     });
   }
 
@@ -87,7 +88,7 @@ export class ConnectionManager {
   public getConnectionByKeyDS(keyds): Knex {
 
     if ( this.connectionMap ) {
-      console.log('keyds=>', keyds);
+      logger.info('keyds => ' + keyds);
 
       return this.connectionMap[keyds];
     }

@@ -12,30 +12,28 @@ import * as bodyParser from 'body-parser';
 
 import { TenantMiddleware } from './../core/middlewares/tenant-middleware';
 import { ConnectionManager } from './../core/db/sql/connection-manager';
+import { winstonSetup } from './../core/config/winston.config';
+import { corsSetup } from './../core/config/cors.config';
 
 export const rootDir = __dirname;
 
 const config = require('./../core/config');
 
 const PORT = config.PORT || 3000;
+
+/**
+ * LOGS config
+ */
+const logger = winstonSetup();
+
 const ENV = config.NODE_ENV;
-console.log('environment', ENV);
+logger.info('environment => ' + ENV);
+
 
 /**
  * CORS config
  */
-const whitelist = ['http://localhost:4200'];
-console.log('cors-whitelist', whitelist);
-const corsOptions = {
-  credentials: true,
-  origin(origin, callback): void {
-    if ( ENV === 'development' ||  whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Não permitido pelo CORS'));
-    }
-  }
-};
+const corsOptions = corsSetup();
 
 
 @Configuration({
@@ -76,6 +74,10 @@ export class Server {
 
   $beforeRoutesInit(): void {
     this.app
+      .use((req, res, done) => {
+          logger.info(req.originalUrl);
+          done();
+      })
       .use(cors(corsOptions))
       .use(cookieParser())
       .use(compress({}))
@@ -91,6 +93,7 @@ export class Server {
   $afterRoutesInit(): void {
     this.app.use(GlobalErrorHandlerMiddleware);
     ConnectionManager.getInstance();
-    console.log('API pronta.');
+
+    logger.debug('API pronta.');
   }
 }

@@ -4,6 +4,7 @@ import { DefaultService } from './default-service';
 import { BaseModel } from './base-model';
 import { ErrorUtil } from '../utils/error-util';
 
+const logger = require('winston');
 
 export class DefaultController<T> {
 
@@ -11,7 +12,8 @@ export class DefaultController<T> {
               private service: DefaultService<T>,
               private clazz: any
     ) {
-      console.log(`construindo controller automático... => ${clazz.name}`);
+      logger.debug(`construindo controller automático... => ${clazz.name}`);
+
       this.criarRotasCRUD(clazz);
     }
 

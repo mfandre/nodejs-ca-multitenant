@@ -1,7 +1,7 @@
 import {IMiddleware, Middleware, Req, Res, Next } from '@tsed/common';
 
 const url = require('url');
-
+const logger = require('winston');
 
 @Middleware()
 export class TenantMiddleware implements IMiddleware {
@@ -20,14 +20,13 @@ export class TenantMiddleware implements IMiddleware {
                                       '/api-docs/swagger.json'];
 
     const path = url.parse(req.url).pathname;
-    console.log('req.path', path );
+    logger.debug('req.path', path );
     let tenantNecessario = true;
 
     for (let i = 0; i < pathsPermitidosSemTenant.length; i++) {
       // checking * routes
       if ( pathsPermitidosSemTenant[i].indexOf('*') >= 0 ) {
         if (path.includes(pathsPermitidosSemTenant[i].replace('*', '')) || path.includes(pathsPermitidosSemTenant[i].replace('/*', ''))) {
-          console.log('tenant-resolver: * routes');
           tenantNecessario = false;
           break;
         }
@@ -39,7 +38,7 @@ export class TenantMiddleware implements IMiddleware {
     }
 
     if ( tenantNecessario && !req.headers['keyds'] ) {
-      console.error('Nenhum tenant (keyds) definido no header');
+      logger.error('Nenhum tenant (keyds) definido no header');
       res.status(400);
       res.json({message: 'Por favor defina um tenant ( Http Headers . keyds ) para processar esta requisição.'});
 

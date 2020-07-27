@@ -9,8 +9,14 @@
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceRoot}/server",
-      "runtimeArgs": ["-r", "ts-node/register"],
-      "args": ["${workspaceRoot}/server/webserver/index.ts"]
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register"
+      ],
+      "args": [
+        "${workspaceRoot}/server/webserver/index.ts"
+      ],
+      "console": "integratedTerminal"
     }
   ]
 }
