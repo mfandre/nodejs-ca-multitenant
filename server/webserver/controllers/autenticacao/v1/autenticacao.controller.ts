@@ -3,6 +3,8 @@ import { Controller, Post, BodyParams, ReturnType, Req, Res, Next, PlatformRoute
 import { BadRequest } from '@tsed/exceptions';
 import { Unauthorized } from '@tsed/exceptions';
 
+
+
 import { PssoaV2Service } from './../../../services/autenticacao/legado/pssoa-v2.service';
 import { UsuarioService } from './../../../services/autenticacao/usuario.service';
 import { OAuthTokenResponseDTO } from './../../../models/autenticacao/oauth/oauth-token-response-dto.model';

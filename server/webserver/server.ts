@@ -1,5 +1,5 @@
-import {Configuration, Inject } from '@tsed/di';
-import {PlatformApplication, GlobalErrorHandlerMiddleware} from '@tsed/common';
+import { Configuration, Inject } from '@tsed/di';
+import { PlatformApplication, GlobalErrorHandlerMiddleware } from '@tsed/common';
 import '@tsed/platform-express'; // /!\ keep this import
 import {GlobalAcceptMimesMiddleware} from '@tsed/platform-express';
 import * as compress from 'compression';
@@ -14,10 +14,12 @@ import { TenantMiddleware } from './../core/middlewares/tenant-middleware';
 import { ConnectionManager } from './../core/db/sql/connection-manager';
 import { winstonSetup } from './../core/config/winston.config';
 import { corsSetup } from './../core/config/cors.config';
+import { MongoConnectionManager } from './../core/db/mongodb/mongo-connection-manager';
 
 export const rootDir = __dirname;
 
 const config = require('./../core/config');
+const helmet = require('helmet');
 
 const PORT = config.PORT || 3000;
 
@@ -74,6 +76,7 @@ export class Server {
 
   $beforeRoutesInit(): void {
     this.app
+      .use(helmet())
       .use((req, res, done) => {
           logger.info(req.originalUrl);
           done();
@@ -92,8 +95,10 @@ export class Server {
 
   $afterRoutesInit(): void {
     this.app.use(GlobalErrorHandlerMiddleware);
-    ConnectionManager.getInstance();
 
-    logger.debug('API pronta.');
+    ConnectionManager.getInstance();
+    MongoConnectionManager.getInstance();
+
+    logger.info('API disponível.');
   }
 }

@@ -11,7 +11,7 @@ export function winstonSetup(): any {
       format.json(),
       format.colorize()
     ),
-    defaultMeta: { service: 'healthmapv4-api' },
+    // defaultMeta: { service: 'healthmapv4-api' },
     transports: [
       new transports.Console({
         format: format.combine(
