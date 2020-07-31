@@ -35,4 +35,7 @@ export class OAuthTokenResponseDTO {
   @Property()
   jti: string;
 
+  @Property()
+  senhav2: string;
+
 }

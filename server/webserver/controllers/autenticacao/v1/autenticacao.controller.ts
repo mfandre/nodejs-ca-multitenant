@@ -1,17 +1,17 @@
+import { PssoaV2Service } from './../../../services/autenticacao/legado/pssoa-v2.service';
 import { Request, Response, NextFunction } from 'express';
 import { Controller, Post, BodyParams, ReturnType, Req, Res, Next, PlatformRouter } from '@tsed/common';
 import { BadRequest } from '@tsed/exceptions';
 import { Unauthorized } from '@tsed/exceptions';
 
-
-
-import { PssoaV2Service } from './../../../services/autenticacao/legado/pssoa-v2.service';
 import { UsuarioService } from './../../../services/autenticacao/usuario.service';
 import { OAuthTokenResponseDTO } from './../../../models/autenticacao/oauth/oauth-token-response-dto.model';
 import { ErrorUtil } from './../../../../core/utils/error-util';
 import { OAuthTokenService } from './../../../services/autenticacao/oauth-token.service';
 import { AccessTokenJwt } from './../../../../webserver/models/autenticacao/oauth/access-token-jwt.model';
 import { Usuario } from './../../../../webserver/models/autenticacao/usuario/usuario.model';
+
+const logger = require('winston');
 
 // tslint:disable:typedef
 @Controller(`/autenticacao/v1`)

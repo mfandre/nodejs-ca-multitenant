@@ -1,3 +1,4 @@
+import { PssoaV2Service } from './legado/pssoa-v2.service';
 import { Response } from 'express';
 import { NotFound, Unauthorized } from '@tsed/exceptions';
 import { Service } from '@tsed/common';
@@ -17,19 +18,23 @@ export class UsuarioService extends DefaultService<Usuario> {
   }
 
   public login(res: Response,
-               email: string,
+               login: string,
                senha: string): Promise<OAuthTokenResponseDTO> {
 
      return this.usuarioRepositorio
                 .setRequest(super.getRequest())
-                .buscarUsuarioPor('email', email)
+                ._buscarPorMultiValor(Usuario, {
+                  nm_pssoa_login: login,
+                  st_pssoa: 'A'
+                })
                 .then( (usuarios: Usuario[]) => {
                   if ( usuarios.length !== 1 ) {
-                    throw (new NotFound('Objeto não encontrado'));
+                    // throw (new NotFound('Objeto não encontrado'));
+                    throw (new Unauthorized('Credencial não autorizada'));
                   }
                   const usuario = usuarios[0];
 
-                  if ( usuario.password !== senha ) {
+                  if ( PssoaV2Service.decriptarSenhaV2(usuario['NM_PSSOA_SENHA'])  !== senha ) {
                     throw (new Unauthorized('Credencial não autorizada'));
                   }
 

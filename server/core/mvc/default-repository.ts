@@ -109,6 +109,20 @@ export class DefaultRepository<T> {
                          .first();
   }
 
+
+  public _buscarPorMultiValor(clazz, propVal): Promise<any> {
+    const table = Reflect.getMetadata(Reflection.tableMetaKey, clazz);
+    if ( !table ) {
+      console.error(this._tableNotFoundMsg);
+
+      return null;
+    }
+
+    return this.getConn().select('*')
+                         .from(table)
+                         .where(propVal);
+  }
+
   public _buscarPor(clazz, prop, val): Promise<any> {
     const table = Reflect.getMetadata(Reflection.tableMetaKey, clazz);
     if ( !table ) {

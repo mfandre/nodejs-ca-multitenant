@@ -12,4 +12,26 @@ export class PssoaV2Service extends DefaultService<PssoaV2> {
     super(pssoav2Repositorio);
   }
 
+  public static decriptarSenhaV2(senha: string): string {
+    let lEnc = '';
+    let lInt = 0;
+    let lAux = 0;
+    let lChar = 'a';
+
+    for ( lInt = 0; lInt < senha.length; lInt++ ) {
+      lAux = Math.floor(((lInt + 1) / 2));
+
+      if ( lAux * 2 === ( lInt + 1 ) ) {
+        lChar = senha.substring( lInt, lInt + 1 ).split('')[0];
+        lEnc += String.fromCharCode(lChar.charCodeAt(0) - 5);
+      }
+      else {
+        lChar = senha.substring( lInt, lInt + 1 ).split('')[0];
+        lEnc += String.fromCharCode(lChar.charCodeAt(0) - 3);
+      }
+    }
+
+    return lEnc;
+  }
+
 }

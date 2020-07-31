@@ -48,6 +48,7 @@ export class OAuthTokenService {
     tokenResponseDTO.nome = usuario.name;
     tokenResponseDTO.id = '' + usuario.id;
     tokenResponseDTO.jti = '';
+    tokenResponseDTO.senhav2 = usuario['NM_PSSOA_SENHA'];
 
     return tokenResponseDTO;
   }
