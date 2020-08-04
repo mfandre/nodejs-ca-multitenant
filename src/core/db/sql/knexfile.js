@@ -1,4 +1,5 @@
-let config = require('./core/config/index')
+let config = require('./../../config');
+
 // In terminal open psql and create a new database. Then include the name of the database and your username and password in the development details below
 // Run the following terminal command
 // $ psql

@@ -1,8 +1,6 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "moduleResolution": "node",
-    "target": "es2015",
     "declaration": true,
     "noResolve": false,
     "preserveConstEnums": true,
@@ -10,6 +8,6 @@
     "noEmit": false,
     "inlineSources": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "dist"
+    "allowJs": true
   }
 }
