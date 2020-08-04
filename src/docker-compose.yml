@@ -1,14 +1,32 @@
+# version: "3"
+# networks:
+#   api_server_default:
+#     external: true
+# services:
+#   src:
+#     networks:
+#       - api_server_default
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     environment:
+#       ENV_NAME: dev
+#     ports:
+#       - 7001:7001
+
 version: '3.3'
 services:
   server:
     build:
       context: .
       dockerfile: ./Dockerfile
+    environment:
+      ENV_NAME: development
       args:
         - http_proxy
         - https_proxy
         - no_proxy
-    image: server/server:latest
+    image: src/src:latest
     ports:
       - "8081:8081"
     stdin_open: true  # -i

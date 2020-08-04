@@ -23,26 +23,26 @@ services:
   #   image: dpage/pgadmin4
   #   container_name: pgAdmin
   #   hostname: pgAdmin
-  #   environment: 
+  #   environment:
   #     PGADMIN_DEFAULT_EMAIL: admin
   #     PGADMIN_DEFAULT_PASSWORD: admin
   #   ports:
   #     - 3001:80
   #   restart: always
 
-  common_tenant:
-    image: postgres
-    container_name: common_tenant
-    hostname: common_tenant
-    environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: common_tenant
-    volumes:
-      - ./initCommon.sql:/docker-entrypoint-initdb.d/init.sql
-    restart: always
-    ports:
-      - 5432:5432
+  # common_tenant:
+  #   image: postgres
+  #   container_name: common_tenant
+  #   hostname: common_tenant
+  #   environment:
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_DB: common_tenant
+  #   volumes:
+  #     - ./initCommon.sql:/docker-entrypoint-initdb.d/init.sql
+  #   restart: always
+  #   ports:
+  #     - 5432:5432
 
   # tenant1:
   #   image: postgres
@@ -72,48 +72,48 @@ services:
   #   ports:
   #     - 5434:5432
 
-  
-  tenant3:
-    image: mcr.microsoft.com/mssql/server
-    container_name: tenant3
-    hostname: tenant3
-    environment:
-      SA_PASSWORD: saPower_123
-      ACCEPT_EULA: Y
-    volumes:
-      - ./initTenant3.sql:/scripts/init.sql
-    restart: always
-    ports:
-      - 1433:1433
-    command:
-      - /bin/bash
-      - -c 
-      - |
-        # Launch MSSQL and send to background
-        /opt/mssql/bin/sqlservr &
-        # Wait 30 seconds for it to be available
-        # (lame, I know, but there's no nc available to start prodding network ports)
-        sleep 100
-        # Run every script in /scripts
-        /opt/mssql-tools/bin/sqlcmd -U sa -P saPower_123 -l 30 -e -i /scripts/init.sql
-        # So that the container doesn't shut down, sleep this thread
-        sleep infinity
 
-#  server:
-#    build: ./server
-#    container_name: server
-#    hostname: server
-#    environment: 
-#      - PORT=5000
-#      - NODE_ENV=production
-      #- MONGO_SERVER=mongo
-#      - TENANT_CLIENT=pg
-#      - TENANT_USER=postgres
-#      - TENANT_PORT=5432
-#      - TENANT_HOST=common_tenant
-#      - TENANT_DATABASE=common_tenant
-#      - TENANT_PASSWORD=postgres
-#    ports:
-#      - "5000:5000"
+  # tenant3:
+  #   image: mcr.microsoft.com/mssql/server
+  #   container_name: tenant3
+  #   hostname: tenant3
+  #   environment:
+  #     SA_PASSWORD: saPower_123
+  #     ACCEPT_EULA: Y
+  #   volumes:
+  #     - ./initTenant3.sql:/scripts/init.sql
+  #   restart: always
+  #   ports:
+  #     - 1433:1433
+  #   command:
+  #     - /bin/bash
+  #     - -c
+  #     - |
+  #       # Launch MSSQL and send to background
+  #       /opt/mssql/bin/sqlservr &
+  #       # Wait 30 seconds for it to be available
+  #       # (lame, I know, but there's no nc available to start prodding network ports)
+  #       sleep 100
+  #       # Run every script in /scripts
+  #       /opt/mssql-tools/bin/sqlcmd -U sa -P saPower_123 -l 30 -e -i /scripts/init.sql
+  #       # So that the container doesn't shut down, sleep this thread
+  #       sleep infinity
+
+ server:
+   build: ./src
+   container_name: apiv4
+   hostname: apiv4
+   environment:
+     - PORT=8181
+     - NODE_ENV=production
+    #  - MONGO_SERVER=mongo
+    #  - TENANT_CLIENT=pg
+    #  - TENANT_USER=postgres
+    #  - TENANT_PORT=5432
+    #  - TENANT_HOST=common_tenant
+    #  - TENANT_DATABASE=common_tenant
+    #  - TENANT_PASSWORD=postgres
+   ports:
+     - "8181:8181"
 #    depends_on:
 #      - common_tenant
