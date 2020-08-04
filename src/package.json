@@ -1,20 +1,20 @@
 {
-  "name": "server",
+  "name": "srv",
   "version": "1.0.0",
   "description": "",
-  "main": "server/webserver/index.js",
+  "main": "src/webserver/index.js",
   "scripts": {
-    "clean": "rimraf '{src,test}/**/*.{js,js.map}'",
+    "clean": "rm -rf dist'",
     "build": "yarn tsc",
     "test": "mocha './**/*.spec.js' --exit",
+    "dev": "yarn start",
     "start": "nodemon --watch \"./**/*.ts\" --ignore \"node_modules/**/*\" --exec ts-node ./webserver/index.ts --trace-sync-io",
-    "dev": "nodemon ./webserver/server.ts",
     "knex": "knex",
     "test:lint": "tslint --project tsconfig.json",
     "test:lint:fix": "tslint --project tsconfig.json --fix",
-    "tsc": "tsc --project tsconfig.compile.json",
-    "tsc:w": "tsc --project tsconfig.json -w",
-    "start:prod": "cross-env NODE_ENV=production node dist/index.js"
+    "tsc": "npx tsc --project tsconfig.compile.json",
+    "tsc:w": "npx tsc --project tsconfig.json -w",
+    "start:prod": "node dist/webserver/index.js"
   },
   "keywords": [],
   "author": "",

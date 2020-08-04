@@ -7,7 +7,6 @@ import { PssoaV2Service } from './../../../services/autenticacao/legado/pssoa-v2
 import { TesteService } from './../../../services/autenticacao/teste.service';
 import { DefaultController } from './../../../../core/mvc/default-controller';
 import { Teste } from './../../../models/autenticacao/teste.model';
-import { PssoaV2 } from 'webserver/models/autenticacao/usuario/legado/pssoa-v2.model';
 
 // tslint:disable:typedef
 @Controller(`/teste/v1`)

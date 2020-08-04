@@ -2,7 +2,7 @@ import {$log} from '@tsed/common';
 import {PlatformExpress} from '@tsed/platform-express';
 import {Server} from './server';
 
-async function bootstrap() {
+async function bootstrap(): Promise<any> {
   try {
     $log.debug('Start server...');
     const platform = await PlatformExpress.bootstrap(Server, {});
