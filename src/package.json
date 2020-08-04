@@ -13,8 +13,8 @@
     "knex": "knex",
     "test:lint": "tslint --project tsconfig.json",
     "test:lint:fix": "tslint --project tsconfig.json --fix",
-    "tsc": "tsc --project tsconfig.compile.json",
-    "tsc:w": "tsc --project tsconfig.json -w",
+    "tsc": "npx tsc --project tsconfig.compile.json",
+    "tsc:w": "npx tsc --project tsconfig.json -w",
     "docker-run:prod": "yarn build && yarn start:prod",
     "start:prod": "node dist/webserver/index.js"
   },
