@@ -1,8 +1,9 @@
 {
-  "name": "srv",
+  "name": "healthmap-web-api-v4",
   "version": "1.0.0",
-  "description": "",
+  "description": "healthmap web api v4",
   "main": "src/webserver/index.js",
+  "author": "Pierre Benazzi - pierrebenazzibr@gmail.com",
   "scripts": {
     "clean": "rm -rf dist'",
     "build": "yarn tsc",
@@ -17,7 +18,6 @@
     "start:prod": "node dist/webserver/index.js"
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "@tsed/ajv": "5.60.6",
