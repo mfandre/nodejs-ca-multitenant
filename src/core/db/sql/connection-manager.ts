@@ -1,8 +1,7 @@
 import * as Knex from 'knex';
 
-// const config = require('./../../config');
-// const environment = config.NODE_ENV || 'development';
-const environment = 'development';
+const config = require('./../../config');
+const environment = config.NODE_ENV || 'development';
 const knexConfig = require('./knexfile')[environment];
 const commonDBConnection = Knex(knexConfig);
 const logger = require('winston');
