@@ -1,9 +1,24 @@
 require('dotenv').config();
 
 module.exports = {
+  APP_NAME: 'Andre fucking APP',
   NODE_ENV: process.env.NODE_ENV || 'development',
   PORT: process.env.PORT || 5000,
   JWT_PW: process.env.JWT_PW || 'key_jwt',
+  LOG: [{
+    name:'file', 
+    options: {
+      filename:'./logs/app.log'
+    }
+  }, {
+    name:'console', 
+    options: {}
+  },/* {
+    name:'graylog', 
+    options: {
+      servers: [{host: 'localhost', port: 12201}]
+    }
+  }*/], //log transports available
   mongo: {
     MONGO_SERVER: process.env.MONGO_SERVER,
     MONGO_USER: process.env.MONGO_USER,

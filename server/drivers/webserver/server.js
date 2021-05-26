@@ -9,8 +9,9 @@ var url = require('url');
 
 var unless = function(paths, middleware) {
   return function(req, res, next) {
-    var path = url.parse(req.url).pathname
-    console.log("req.path", req.url )
+    //var path = new url.URL(req.url).pathname
+    var path = req.url
+    //console.log("req.path", req.url )
     for(let i = 0; i < paths.length;i++){
       //checking * routes
       if(paths[i].indexOf('*') >= 0){

@@ -60,7 +60,7 @@ connectionManager.getConnectionBySlug = (slug) => {
   if (connectionManager.connectionMap) {
 
     //console.log("connectionManager.connectionMap", connectionManager.connectionMap[slug])
-    console.log("slug=>", slug)
+    //console.log("slug=>", slug)
 
     return connectionManager.connectionMap[slug];
   }
