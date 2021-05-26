@@ -4,6 +4,7 @@ const app = express()
 const routes = require('./routes')
 const config = require('../../config')
 const tenantResolver = require('./middlewares/tenantResolver')
+const httpLogger = require('./logger/httpLogger')
 var url = require('url');
 
 var unless = function(paths, middleware) {
@@ -29,9 +30,11 @@ var unless = function(paths, middleware) {
 // bodyparser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(httpLogger)
 
 //avoid tenant check on those endpoints
 app.use(unless(['/',
+  '/boom',
   '/farms/*',
   '/farmndvis/*',
   '/farmprecipitations/*',
@@ -73,7 +76,6 @@ const PORT = config.PORT || 3000
 const ENV = config.NODE_ENV
 
 console.log("EVN", ENV)
-
 
 app.listen(PORT, () => {
   console.log(`Listening on PORT: ${PORT}`);

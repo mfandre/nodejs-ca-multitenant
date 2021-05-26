@@ -7,6 +7,7 @@ const router = express.Router()
 
 const farmRoutes = require('./farm/route')
 const loginRoutes = require('./login/route')
+const boomRoutes = require('./boom/route')
 
 /**
  * @swagger
@@ -56,6 +57,7 @@ const loginRoutes = require('./login/route')
 
 loginRoutes.register(router);
 farmRoutes.register(router);
+boomRoutes.register(router);
 
 /**
  * 
