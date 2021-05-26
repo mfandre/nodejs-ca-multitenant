@@ -29,6 +29,8 @@ var unless = function(paths, middleware) {
 // bodyparser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+//avoid tenant check on those endpoints
 app.use(unless(['/',
   '/farms/*',
   '/farmndvis/*',

@@ -63,7 +63,7 @@ loginRoutes.register = (router) => {
      */
     router.get("/auth", login.auth);
 
-        /**
+    /**
      * @swagger
      * /register:
      *   post:
