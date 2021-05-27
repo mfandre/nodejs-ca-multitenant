@@ -117,10 +117,10 @@ A visualização dos logs está sendo feito através do loki + grafana. Ambos co
      - Adicione o datasource do Loki e salve (veja imagens abaixo)
      ![Loki datasource](datasource_loki.png)
      ![Loki datasource](datasource_loki_save.png)
-     - Para visualizar entre no menu "explore" e 
+     - Para visualizar entre no menu "explore" e use a seguinte query {agent="fluentd"} |= "HTTP Access Log" | logfmt | url = "/boom"
      ![Grafana explore](explore_query.png)
      - Exemplos de query = https://grafana.com/docs/loki/latest/logql/
-     {agent="fluentd"} |= "HTTP Access Log" | logfmt | url = "/boom"
+     
 
 ### Considerações finais
 - Os bancos sqlserver e postgres demoram um pouco para ficar on no docker
