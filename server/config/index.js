@@ -13,12 +13,15 @@ module.exports = {
   }, {
     name:'console', 
     options: {}
-  },/* {
-    name:'graylog', 
+  }, {
+    name:'fluentd', 
     options: {
-      servers: [{host: 'localhost', port: 12201}]
+      host: 'localhost',
+      port: 24224,
+      timeout: 3.0,
+      requireAckResponse: true // Add this option to wait response from Fluentd certainly
     }
-  }*/], //log transports available
+  }], //log transports available
   mongo: {
     MONGO_SERVER: process.env.MONGO_SERVER,
     MONGO_USER: process.env.MONGO_USER,

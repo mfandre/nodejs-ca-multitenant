@@ -18,6 +18,7 @@
     "csvtojson": "^2.0.10",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "fluent-logger": "^3.4.1",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.6",
@@ -31,7 +32,6 @@
     "swagger-ui-express": "^4.1.4",
     "validate.js": "^0.13.1",
     "winston": "^3.3.3",
-    "winston-graylog2": "^2.1.2",
     "yargs-parser": "^13.1.2"
   },
   "devDependencies": {

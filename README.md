@@ -102,6 +102,26 @@ npm run knex "migrate:latest" "knexfile.js"
 
 npm run knex seed:run
 
+### Logviewer
+A aplicação possui 3 "transportes de log":
+- console
+- file
+- fluentd
+
+O fluentd é uma ferramenta para centralizar logs (escalável). 
+
+A visualização dos logs está sendo feito através do loki + grafana. Ambos configurados no docker-compose.Para visualizar os logs:
+- Acesse o grafana http://localhost:3000
+     - login/senha = admin/admin
+     - configuration > datasources
+     - Adicione o datasource do Loki e salve (veja imagens abaixo)
+     ![Loki datasource](datasource_loki.png)
+     ![Loki datasource](datasource_loki_save.png)
+     - Para visualizar entre no menu "explore" e 
+     ![Grafana explore](explore_query.png)
+     - Exemplos de query = https://grafana.com/docs/loki/latest/logql/
+     {agent="fluentd"} |= "HTTP Access Log" | logfmt | url = "/boom"
+
 ### Considerações finais
 - Os bancos sqlserver e postgres demoram um pouco para ficar on no docker
 - A apliccação permite que os tenant possam ser em diferentes tipos da base dados... Ou seja, vc pode ter um tenant1 rodando em Postgres um Tenant2 rodando em SqlServer... inclusive mongo... divirta-se...

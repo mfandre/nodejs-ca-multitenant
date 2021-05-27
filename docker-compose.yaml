@@ -29,6 +29,43 @@ services:
       - 3001:80
     restart: always
 
+  loki:
+    image: grafana/loki:master
+    container_name: loki
+    hostname: loki
+    restart: unless-stopped
+    ports:
+      - 3100:3100
+
+  fluentd:
+    image: grafana/fluent-plugin-loki
+    container_name: fluentd
+    hostname: fluentd
+    command:
+      - "fluentd"
+      - "-v"
+      - "-p"
+      - "/fluentd/plugins"
+    volumes:
+      - ./fluentd/fluentd_logs:/fluentd/log
+      - ./fluentd/fluent.conf:/fluentd/etc/fluent.conf
+    environment:
+      LOKI_URL: http://loki:3100
+      LOKI_USERNAME:
+      LOKI_PASSWORD:
+    restart: always
+    ports:
+      - 24224:24224
+      - 24224:24224/udp
+    
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    hostname: grafana
+    restart: always
+    ports:
+      - 3000:3000
+
   common_tenant:
     image: postgres
     container_name: common_tenant
