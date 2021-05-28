@@ -83,6 +83,8 @@ A API possui duas autenticações implementadas:
 - Salve e edite conforme a figura abaixo
      ![Keycloak client creation](keycloak_client1.png)
  - Configure o arquivo config/index.js (chave KEYCLOAK_CONFIG) com os valores do client criado anteriormente
+ - Clique no cadeado no canto superior direito da request e faça login no keycloak com algum usuario
+ - Execute a request...
 
 ### Requests
 1. farms (obrigatório estar previamente autenticado via JWT)
