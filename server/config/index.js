@@ -5,6 +5,17 @@ module.exports = {
   NODE_ENV: process.env.NODE_ENV || 'development',
   PORT: process.env.PORT || 5000,
   JWT_PW: process.env.JWT_PW || 'key_jwt',
+  KEYCLOAK_CONFIG: {
+    clientId: 'andreapp',
+    bearerOnly: true,
+    serverUrl: 'http://localhost:8989/auth',
+    authorizationUrl: "http://localhost:8989/auth/realms/master/protocol/openid-connect/auth",
+    tokenUrl: "http://localhost:8989/auth/realms/master/protocol/openid-connect/token",
+    realm: 'master',
+    credentials: {
+        secret: 'a9a15181-a46c-4030-b0bc-a58a13cea240'
+    }
+  },
   LOG: [{
     name:'file', 
     options: {

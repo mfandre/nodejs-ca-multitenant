@@ -22,7 +22,14 @@ const options = {
             in: 'header',
             name: 'Authorization',
             description: "The following syntax must be used in the 'Authorization' header : Bearer xxxxxx.yyyyyyy.zzzzzz",
-        }
+        },
+        keycloak: {
+          "type": "oauth2",
+          "flow": "authorizationCode",
+          "clientId": "zica",
+          "authorizationUrl": config.KEYCLOAK_CONFIG.authorizationUrl,
+          "tokenUrl": config.KEYCLOAK_CONFIG.tokenUrl
+        },
     }
   },
   apis: [__dirname + '/../**/*.js']

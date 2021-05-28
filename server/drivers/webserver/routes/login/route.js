@@ -13,7 +13,7 @@ loginRoutes.register = (router) => {
      * /login:
      *   post:
      *     tags:
-     *       - login
+     *       - login JWT
      *     description: login a user
      *     produces:
      *       - application/json
@@ -46,7 +46,7 @@ loginRoutes.register = (router) => {
      * /auth:
      *   get:
      *     tags:
-     *       - login
+     *       - login JWT
      *     security:
      *       - JWT: []
      *     description: Auth user
@@ -68,7 +68,7 @@ loginRoutes.register = (router) => {
      * /register:
      *   post:
      *     tags:
-     *       - login
+     *       - login JWT
      *     description: Creates a new user
      *     produces:
      *       - application/json

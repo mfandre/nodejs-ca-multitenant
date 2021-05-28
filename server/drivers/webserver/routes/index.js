@@ -1,13 +1,14 @@
 const express = require('express')
 const swaggerUi = require('swagger-ui-express');
 const specs = require('./swagger/swagger.js');
-
+const config = require('../../../config/index')
 const router = express.Router()
 
 
 const farmRoutes = require('./farm/route')
 const loginRoutes = require('./login/route')
 const boomRoutes = require('./boom/route')
+const testKeycloakRoutes = require('./test-keycloak/route')
 
 /**
  * @swagger
@@ -58,7 +59,7 @@ const boomRoutes = require('./boom/route')
 loginRoutes.register(router);
 farmRoutes.register(router);
 boomRoutes.register(router);
-
+testKeycloakRoutes.register(router);
 /**
  * 
  * Adding Swagger
@@ -68,6 +69,19 @@ router.get('/swagger.json', function(req, res, next) {
   res.setHeader('Content-Type', 'application/json');
   res.send(specs);
 });
-router.use('/', swaggerUi.serve, swaggerUi.setup(specs));
+
+var options = {
+	validatorUrl : null,
+	oauth: {
+	 clientId: config.KEYCLOAK_CONFIG.clientId,
+	 clientSecret: config.KEYCLOAK_CONFIG.credentials.secret,
+	 realm:  config.KEYCLOAK_CONFIG.realm,
+	 appName:  config.KEYCLOAK_CONFIG.clientId,
+	 scopeSeparator: ",",
+	 additionalQueryStringParams: {}
+  }
+};
+
+router.use('/', swaggerUi.serve, swaggerUi.setup(specs, false, options));
 
 module.exports = router

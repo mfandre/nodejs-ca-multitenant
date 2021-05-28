@@ -62,8 +62,11 @@ docker-compose down
 Inicie o docker e entre em http://localhost:5000/ usando o seu navegador
 
 ## Autenticar SWAGGER
-Para autenticar o swagger siga os passos:
+A API possui duas autenticações implementadas:
+     - JWT
+     - Keycloak
 
+### Para autenticar o swagger com JWT siga os passos:
  - Faça a request /login passando email e password
  - Copie o token gerado
  - Clique no botão Authorize no topo do site
@@ -71,20 +74,31 @@ Para autenticar o swagger siga os passos:
       - exemplo: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZhbmRyZUBnbWFpbC5jb20iLCJuYW1lIjoiQW5kcsOpIiwiaWF0IjoxNTkxMzk2MDIyfQ.GQNw5SPlluVc-ZLPTbf8n0OjsccziD7mfHb_6pmDpDQ"
  - Agora qualquer request realizada terá o token "Authorization" adicionado no header do request HTTP
 
+### Para autenticar o swagger com KEYCLOAK siga os passos:
+ - O docker-compose sobe uma instância "vazia" do keycloak. Desta forma é preciso criar um client para testarmos nossa autenticação.
+ - Acesse http://localhost:8989
+ - Keycloak console > Logue com admin/admin
+ - Entre no menu "clients" e crie um novo cliente conforme a figura abaixo
+     ![Keycloak client creation](keycloak_client.png)
+- Salve e edite conforme a figura abaixo
+     ![Keycloak client creation](keycloak_client1.png)
+ - 
+
 ### Requests
-1. farms (obrigatório estar previamente autenticado)
-2. farmndvis (obrigatório estar previamente autenticado)
-3. farmprecipitations (obrigatório estar previamente autenticado)
+1. farms (obrigatório estar previamente autenticado via JWT)
+2. farmndvis (obrigatório estar previamente autenticado JWT)
+3. farmprecipitations (obrigatório estar previamente autenticado via JWT)
 4. login
    - register (criar usuário)
    - login (retorna o token JWT de acesso) [Não precisa de autenticação]
    - auth (valida o token JWT de acesso) [É preciso existir um token no header da request para ser validado]
+5. test_auth (rota para testar autenticação com keycloak)
 
-OBS1: Hoje o registro não está validando se o email já existe na base... é somente um exemplo... Leve isso em consideração na hora de efetuar login pois pode dar erro se existirem dois usuários com o mesmo email!
+OBS1: Hoje a aplicação não está validando se o email já existe na base... é somente um exemplo... Leve isso em consideração na hora de efetuar login pois pode dar erro se existirem dois usuários com o mesmo email!
 
 OBS2: As requests de login obrigam a ter um header chamado "slug" que é o tenant que vc irá se conectar. As requests de farm estão em uma lista para serem ignoradas. Qualquer outra request adicionada, automaticamente, será validada com a presença do header slug.
 
-OBS3: A documentação do swagger não é gerada automaticamente, portanto o desenvolvedor deverá adicioná-la conforme os exemplos!
+OBS3: A documentação do swagger não é gerada automaticamente, portanto o desenvolvedor deverá adicioná-la conforme os exemplos dos arquivos routes.js já existentes.
 
 ## Conectores de Banco
 A aplicação possui arquivos de conexão para 3 bancos atualmente:
@@ -108,9 +122,13 @@ A aplicação possui 3 "transportes de log":
 - file
 - fluentd
 
-O fluentd é uma ferramenta para centralizar logs (escalável). 
+O fluentd é uma ferramenta para "centralizar" logs (escalável). O fluxo de logs é:
 
-A visualização dos logs está sendo feito através do loki + grafana. Ambos configurados no docker-compose.Para visualizar os logs:
+```
+app -> fluentd -> loki -> grafana
+```
+
+A visualização dos logs está sendo feita através do loki + grafana. Ambos configurados no docker-compose. Para visualizar os logs:
 - Acesse o grafana http://localhost:3000
      - login/senha = admin/admin
      - configuration > datasources
@@ -120,9 +138,10 @@ A visualização dos logs está sendo feito através do loki + grafana. Ambos co
      - Para visualizar entre no menu "explore" e use a seguinte query {agent="fluentd"} |= "HTTP Access Log" | logfmt | url = "/boom"
      ![Grafana explore](explore_query.png)
      - Exemplos de query = https://grafana.com/docs/loki/latest/logql/
-     
+
 
 ### Considerações finais
 - Os bancos sqlserver e postgres demoram um pouco para ficar on no docker
-- A apliccação permite que os tenant possam ser em diferentes tipos da base dados... Ou seja, vc pode ter um tenant1 rodando em Postgres um Tenant2 rodando em SqlServer... inclusive mongo... divirta-se...
+- A aplicação permite que os tenant possam ser em diferentes tipos da base dados... Ou seja, vc pode ter um tenant1 rodando em Postgres um Tenant2 rodando em SqlServer... divirta-se...
+- O multi tenant só está disponível para banco de dados relacionais. Fica o dever de casa para vc implementar em outros bancos...
 - Feito com entusiasmo por André de Mattos Ferraz

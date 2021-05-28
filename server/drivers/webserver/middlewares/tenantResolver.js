@@ -1,6 +1,5 @@
 
-getConnectionBySlug = require('../../../db/sql/connectionManager').getConnectionBySlug
-let getNamespace = require('continuation-local-storage').getNamespace
+//getConnectionBySlug = require('../../../db/sql/connectionManager').getConnectionBySlug
 
 let tenantResolver = module.exports = {}
 

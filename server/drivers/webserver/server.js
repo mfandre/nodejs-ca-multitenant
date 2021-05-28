@@ -1,10 +1,12 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
+const keycloak = require('./auth/keycloak-config').initKeycloak(app);
 const routes = require('./routes')
 const config = require('../../config')
 const tenantResolver = require('./middlewares/tenantResolver')
 const httpLogger = require('./logger/httpLogger')
+
 var url = require('url');
 
 var unless = function(paths, middleware) {
@@ -27,6 +29,7 @@ var unless = function(paths, middleware) {
   };
 };
 
+app.use(keycloak.middleware());
 
 // bodyparser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -36,9 +39,11 @@ app.use(httpLogger)
 //avoid tenant check on those endpoints
 app.use(unless(['/',
   '/boom',
+  '/test_auth',
   '/farms/*',
   '/farmndvis/*',
   '/farmprecipitations/*',
+  '/oauth2-redirect.html*',
   '/favicon.ico',
   '/favicon-16x16.png',
   '/favicon-32x32.png',
@@ -76,7 +81,7 @@ app.use(function (req, res) {
 const PORT = config.PORT || 3000
 const ENV = config.NODE_ENV
 
-console.log("EVN", ENV)
+console.log("ENV", ENV)
 
 app.listen(PORT, () => {
   console.log(`Listening on PORT: ${PORT}`);

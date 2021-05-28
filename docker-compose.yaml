@@ -66,6 +66,17 @@ services:
     ports:
       - 3000:3000
 
+  keycloak:
+    image: jboss/keycloak:4.8.3.Final
+    container_name: keycloak
+    hostname: keycloak
+    environment:
+        - KEYCLOAK_USER=admin
+        - KEYCLOAK_PASSWORD=admin
+    ports:
+        - 8989:8080
+    restart: always
+
   common_tenant:
     image: postgres
     container_name: common_tenant
