@@ -82,7 +82,7 @@ A API possui duas autenticações implementadas:
      ![Keycloak client creation](keycloak_client.png)
 - Salve e edite conforme a figura abaixo
      ![Keycloak client creation](keycloak_client1.png)
- - 
+ - Configure o arquivo config/index.js (chave KEYCLOAK_CONFIG) com os valores do client criado anteriormente
 
 ### Requests
 1. farms (obrigatório estar previamente autenticado via JWT)
