@@ -63,8 +63,8 @@ Inicie o docker e entre em http://localhost:5000/ usando o seu navegador
 
 ## Autenticar SWAGGER
 A API possui duas autenticações implementadas:
-     - JWT
-     - Keycloak
+ - JWT
+ - Keycloak
 
 ### Para autenticar o swagger com JWT siga os passos:
  - Faça a request /login passando email e password
