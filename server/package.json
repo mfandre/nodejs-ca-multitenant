@@ -20,7 +20,7 @@
     "express-session": "^1.17.2",
     "fluent-logger": "^3.4.1",
     "joi": "^14.3.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "keycloak-connect": "^13.0.1",
     "knex": "^0.95.6",
     "mongoose": "^5.12.11",
